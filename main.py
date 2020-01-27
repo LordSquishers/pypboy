@@ -1,13 +1,14 @@
 import pygame
 import config
 import os
+from builtins import str
 
 try:
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BCM)
     config.GPIO_AVAILABLE = True
-except Exception, e:
-    print "GPIO UNAVAILABLE (%s)" % e
+except Exception as e:
+    print("GPIO UNAVAILABLE (%s)" % str(e))
     config.GPIO_AVAILABLE = False
 
 # Probably have GPIO on RPI, may not be a perfect way to tell though.
@@ -28,5 +29,5 @@ except:
 
 if __name__ == "__main__":
     boy = Pypboy('Pip-Boy 3000', config.WIDTH, config.HEIGHT)
-    print "RUN"
+    print("RUN")
     boy.run()
