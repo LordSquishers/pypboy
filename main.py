@@ -1,3 +1,4 @@
+from pypboy.core import Pypboy
 import pygame
 import config
 import os
@@ -15,11 +16,10 @@ except Exception as e:
 if config.GPIO_AVAILABLE:
     # Init framebuffer/touchscreen environment variables
     os.putenv('SDL_VIDEODRIVER', 'fbcon')
-    os.putenv('SDL_FBDEV'      , '/dev/fb1')
-    os.putenv('SDL_MOUSEDRV'   , 'TSLIB')
-    os.putenv('SDL_MOUSEDEV'   , '/dev/input/event2')
+    os.putenv('SDL_FBDEV', '/dev/fb1')
+    os.putenv('SDL_MOUSEDRV', 'TSLIB')
+    os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
 
-from pypboy.core import Pypboy
 
 try:
     pygame.mixer.init(44100, -16, 2, 2048)
