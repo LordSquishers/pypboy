@@ -7,7 +7,7 @@ from pypboy.modules import data
 from pypboy.modules import items
 from pypboy.modules import stats
 
-if config.GPIO_AVAILABLE:
+if config.gpioAvailable():
     import RPi.GPIO as GPIO
 
 
@@ -21,7 +21,7 @@ class Pypboy(game.core.Engine):
         self.init_modules()
 
         self.gpio_actions = {}
-        if config.GPIO_AVAILABLE:
+        if config.gpioAvailable():
             self.init_gpio_controls()
 
     def init_children(self):

@@ -3,16 +3,13 @@ import config
 import os
 from builtins import str
 
-try:
-    import RPi.GPIO as GPIO
+if config.gpioAvailable():
     GPIO.setmode(GPIO.BCM)
-    config.GPIO_AVAILABLE = True
-except Exception as e:
-    print("GPIO UNAVAILABLE (%s)" % str(e))
-    config.GPIO_AVAILABLE = False
+else:
+    print("GPIO UNAVAILABLE")
 
 # Probably have GPIO on RPI, may not be a perfect way to tell though.
-if config.GPIO_AVAILABLE:
+if config.gpioAvailable():
     # Init framebuffer/touchscreen environment variables
     os.putenv('SDL_VIDEODRIVER', 'fbcon')
     os.putenv('SDL_FBDEV', '/dev/fb1')

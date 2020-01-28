@@ -83,3 +83,11 @@ pygame.font.init()
 FONTS = {}
 for x in range(10, 28):
     FONTS[x] = pygame.font.Font('monofonto.ttf', x)
+
+def gpioAvailable():
+    try:
+        import RPi.GPIO as GPIO
+    except ImportError:
+        return False
+    else:
+        return True
