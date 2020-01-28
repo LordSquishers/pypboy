@@ -19,7 +19,7 @@ class Pypboy(game.core.Engine):
 		super(Pypboy, self).__init__(*args, **kwargs)
 		self.init_children()
 		self.init_modules()
-		
+
 		self.gpio_actions = {}
 		if config.GPIO_AVAILABLE:
 			self.init_gpio_controls()
