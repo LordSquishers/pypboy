@@ -10,20 +10,20 @@ HEIGHT = 320
 MAP_FOCUS = (-102.3016145, 21.8841274)
 
 EVENTS = {
-    'SONG_END': pygame.event.USEREVENT + 1
+    'SONG_END': pygame.USEREVENT + 1
 }
 
 ACTIONS = {
-    pygame.event.K_F1: "module_stats",
-    pygame.event.K_F2: "module_items",
-    pygame.event.K_F3: "module_data",
-    pygame.event.K_1:	"knob_1",
-    pygame.event.K_2: "knob_2",
-    pygame.event.K_3: "knob_3",
-    pygame.event.K_4: "knob_4",
-    pygame.event.K_5: "knob_5",
-    pygame.event.K_UP: "dial_up",
-    pygame.event.K_DOWN: "dial_down"
+    pygame.K_F1: "module_stats",
+    pygame.K_F2: "module_items",
+    pygame.K_F3: "module_data",
+    pygame.K_1:	"knob_1",
+    pygame.K_2: "knob_2",
+    pygame.K_3: "knob_3",
+    pygame.K_4: "knob_4",
+    pygame.K_5: "knob_5",
+    pygame.K_UP: "dial_up",
+    pygame.K_DOWN: "dial_down"
 }
 
 # Using GPIO.BCM as mode
