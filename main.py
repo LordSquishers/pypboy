@@ -2,19 +2,19 @@ import pygame
 import config
 import os
 from builtins import str
+if config.gpioAvailable():
+    import RPi.GPIO as GPIO
 
 if config.gpioAvailable():
     GPIO.setmode(GPIO.BCM)
-else:
-    print("GPIO UNAVAILABLE")
 
-# Probably have GPIO on RPI, may not be a perfect way to tell though.
-if config.gpioAvailable():
     # Init framebuffer/touchscreen environment variables
     os.putenv('SDL_VIDEODRIVER', 'fbcon')
     os.putenv('SDL_FBDEV', '/dev/fb1')
-    os.putenv('SDL_MOUSEDRV', 'TSLIB')
-    os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
+#    os.putenv('SDL_MOUSEDRV', 'TSLIB')
+#    os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
+else:
+    print("GPIO UNAVAILABLE")
 
 from pypboy.core import Pypboy
 
