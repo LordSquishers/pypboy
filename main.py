@@ -1,4 +1,3 @@
-from pypboy.core import Pypboy
 import pygame
 import config
 import os
@@ -20,6 +19,7 @@ if config.GPIO_AVAILABLE:
     os.putenv('SDL_MOUSEDRV', 'TSLIB')
     os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
 
+from pypboy.core import Pypboy
 
 try:
     pygame.mixer.init(44100, -16, 2, 2048)
