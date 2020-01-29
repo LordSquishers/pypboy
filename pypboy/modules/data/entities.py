@@ -269,18 +269,18 @@ class MinutemenRadio(RadioStation):
 
 class Vault101Radio(RadioStation):
     def __init__(self, *args, **kwargs):
-        self.label = 'Vault 101 Radio'
+        self.label = 'Vault 101 PA System'
         self.directory = 'sounds/radio/V101/'
         super(Vault101Radio, self).__init__(self, *args, **kwargs)
 
-class ViolinRadio(RadioStation):
+class AgathaRadio(RadioStation):
     def __init__(self, *args, **kwargs):
-        self.label = 'Violin Radio'
+        self.label = 'Agatha\'s Station'
         self.directory = 'sounds/radio/Violin/'
-        super(ViolinRadio, self).__init__(self, *args, **kwargs)
+        super(AgathaRadio, self).__init__(self, *args, **kwargs)
 
-class F3Radio(RadioStation):
+class GNRadio(RadioStation):
     def __init__(self, *args, **kwargs):
-        self.label = 'F3 Radio'
-        self.directory = 'sounds/radio/F3/'
-        super(F3Radio, self).__init__(self, *args, **kwargs)
+        self.label = 'Galaxy News Radio'
+        self.directory = 'sounds/radio/gnr/'
+        super(GNRadio, self).__init__(self, *args, **kwargs)

@@ -10,13 +10,13 @@ class Module(pypboy.SubModule):
 	def __init__(self, *args, **kwargs):
 		super(Module, self).__init__(*args, **kwargs)
 		self.stations = [
+			entities.AgathaRadio(),
 			entities.DiamondCityRadio(),
 			entities.EnclaveRadio(),
+			entities.GNRadio(),
 			entities.InstituteRadio(),
 			entities.MinutemenRadio(),
 			entities.Vault101Radio(),
-			entities.ViolinRadio(),
-			entities.F3Radio(),
 		]
 		for station in self.stations:
 			self.add(station)
@@ -34,7 +34,7 @@ class Module(pypboy.SubModule):
 		self.menu.rect[1] = 60
 		self.add(self.menu)
 
-		self.select_station(0)
+		self.menu.select(1)
 
 	def select_station(self, station):
 		if hasattr(self, 'active_station') and self.active_station:
