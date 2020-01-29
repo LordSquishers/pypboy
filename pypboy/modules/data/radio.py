@@ -10,12 +10,29 @@ class Module(pypboy.SubModule):
 	def __init__(self, *args, **kwargs):
 		super(Module, self).__init__(*args, **kwargs)
 		self.stations = [
-			entities.GalaxyNewsRadio()
+			entities.DiamondCityRadio(),
+			entities.EnclaveRadio(),
+			entities.InstituteRadio(),
+			entities.MinutemenRadio(),
+			entities.Vault101Radio(),
+			entities.ViolinRadio(),
+			entities.F3Radio(),
 		]
 		for station in self.stations:
 			self.add(station)
 		self.active_station = None
 		config.radio = self
+
+		stationLabels = []
+		stationCallbacks = []
+		for i, station in enumerate(self.stations):
+			stationLabels.append(station.label)
+			stationCallbacks.append(lambda i=i: self.select_station(i))
+
+		self.menu = pypboy.ui.Menu(200, stationLabels, stationCallbacks, 0)
+		self.menu.rect[0] = 4
+		self.menu.rect[1] = 60
+		self.add(self.menu)
 
 		self.select_station(0)
 
@@ -30,3 +47,9 @@ class Module(pypboy.SubModule):
 		if event.type == config.EVENTS['SONG_END']:
 			if hasattr(self, 'active_station') and self.active_station:
 				self.active_station.play_random()
+
+	def handle_resume(self):
+		self.parent.pypboy.header.headline = "DATA"
+		self.parent.pypboy.header.title = "Radio"
+		super(Module, self).handle_resume()
+		
