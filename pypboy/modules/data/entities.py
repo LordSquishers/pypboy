@@ -3,11 +3,9 @@ import game
 import config
 import pygame
 import threading
-import traceback
 import pypboy.data
 from datetime import datetime
 from random import choice
-from pyglet import media
 
 class Map(game.Entity):
 
@@ -212,75 +210,45 @@ class RadioStation(game.Entity):
         self.state = self.STATES['stopped']
         self.files = self.load_files()
         self.filename = False
-        print(":: initing player to false")
-        self.player = False
-
-    def create_player(self):
-        if self.player:
-            print(":: already had a player, pausing")
-            self.player.pause()
-            print(":: and discarding")
-            self.player = False
-
-        print(":: Creating player")
-        self.player = media.Player()
-        print(":: player.eos_action = ...")
-        self.player.eos_action = media.EOS_STOP
-        print(":: player.on_eos = ...")
-        self.player.on_eos = lambda:config.EVENTS['SONG_END']
+        pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
     def play_random(self):
-#        start_pos = 0
+        start_pos = 0
         f = False
 
-# TODO
-#        if hasattr(self, 'last_filename') and self.last_filename:
-#            source = media.load(self.last_filename)
-#
-#            now = datetime.now().seconds
-#            curpos = self.last_playpos + (now - self.last_playtime)
- 
+        if hasattr(self, 'last_filename') and self.last_filename:
+            pygame.mixer.music.load(self.last_filename)
+
+            now = datetime.now().seconds
+            curpos = self.last_playpos + (now - self.last_playtime)
+            # TODO
+
         f = choice(self.files)
         self.filename = f
-        print(":: leading media")
-        source = media.load(f)
-
-        print(":: recreating player")
-        self.create_player()
-        print(":: player.queue")
-        self.player.queue(source)
-        print(":: player.play")
-        self.player.play()
-
+        pygame.mixer.music.load(f)
+        pygame.mixer.music.play(0, start_pos)
         self.state = self.STATES['playing']
 
     def play(self):
         if self.state == self.STATES['paused']:
-            print(":: player.pause")
-            self.player.pause()
+            pygame.mixer.music.unpause()
             self.state = self.STATES['playing']
         else:
             self.play_random()
 
     def pause(self):
         self.state = self.STATES['paused']
-        print(":: player.pause (pause)")
-        self.player.pause()
+        pygame.mixer.music.pause()
 
     def stop(self):
         self.state = self.STATES['stopped']
-        print(":: stop")
-        if self.player:
-            print(":: pausing")
-            self.player.pause()
-            print(":: and setting to false")
-            self.player = False
-
-# TODO        
-#        if self.filename:
-#            self.last_filename = self.filename
-#            self.last_playpos = pygame.mixer.music.get_pos()
-#            self.last_playtime = datetime.now().second
+        
+        if self.filename:
+            self.last_filename = self.filename
+            self.last_playpos = pygame.mixer.music.get_pos()
+            self.last_playtime = datetime.now().second
+        
+        pygame.mixer.music.stop()
 
     def load_files(self):
         files = []
