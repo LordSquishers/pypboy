@@ -212,7 +212,6 @@ class RadioStation(game.Entity):
         self.state = self.STATES['stopped']
         self.files = self.load_files()
         self.filename = False
-        print(":: initing player to false")
         self.player = False
 
     def play_random(self):
@@ -228,18 +227,14 @@ class RadioStation(game.Entity):
  
         f = choice(self.files)
         self.filename = f
-        print(":: leading media")
         source = media.load(f)
 
-        print(":: playing")
         self.player = source.play()
 
         self.state = self.STATES['playing']
 
     def play(self):
-        print(":: in PLAY")
         if self.state == self.STATES['paused']:
-            print(":: player.pause")
             self.player.pause()
             self.state = self.STATES['playing']
         else:
@@ -247,16 +242,12 @@ class RadioStation(game.Entity):
 
     def pause(self):
         self.state = self.STATES['paused']
-        print(":: player.pause (pause)")
         self.player.pause()
 
     def stop(self):
         self.state = self.STATES['stopped']
-        print(":: stop")
         if self.player:
-            print(":: pausing")
             self.player.pause()
-            print(":: and setting to false")
             self.player = False
 
 # TODO        
