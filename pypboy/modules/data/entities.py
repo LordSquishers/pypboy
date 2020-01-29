@@ -4,9 +4,8 @@ import config
 import pygame
 import threading
 import pypboy.data
-
+from datetime import datetime
 from random import choice
-
 
 class Map(game.Entity):
 
@@ -214,10 +213,20 @@ class RadioStation(game.Entity):
         pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
     def play_random(self):
+        start_pos = 0
+        f = False
+
+        if hasattr(self, 'last_filename') and self.last_filename:
+            pygame.mixer.music.load(self.last_filename)
+
+            now = datetime.now().seconds
+            curpos = self.last_playpos + (now - self.last_playtime)
+            # TODO
+
         f = choice(self.files)
         self.filename = f
         pygame.mixer.music.load(f)
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(0, start_pos)
         self.state = self.STATES['playing']
 
     def play(self):
@@ -233,6 +242,12 @@ class RadioStation(game.Entity):
 
     def stop(self):
         self.state = self.STATES['stopped']
+        
+        if self.filename:
+            self.last_filename = self.filename
+            self.last_playpos = pygame.mixer.music.get_pos()
+            self.last_playtime = datetime.now().second
+        
         pygame.mixer.music.stop()
 
     def load_files(self):
