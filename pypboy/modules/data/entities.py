@@ -215,20 +215,6 @@ class RadioStation(game.Entity):
         print(":: initing player to false")
         self.player = False
 
-    def create_player(self):
-        if self.player:
-            print(":: already had a player, pausing")
-            self.player.pause()
-            print(":: and discarding")
-            self.player = False
-
-        print(":: Creating player")
-        self.player = media.Player()
-        print(":: player.eos_action = ...")
-        self.player.eos_action = media.EOS_STOP
-        print(":: player.on_eos = ...")
-        self.player.on_eos = lambda:config.EVENTS['SONG_END']
-
     def play_random(self):
 #        start_pos = 0
         f = False
@@ -245,16 +231,13 @@ class RadioStation(game.Entity):
         print(":: leading media")
         source = media.load(f)
 
-        print(":: recreating player")
-        self.create_player()
-        print(":: player.queue")
-        self.player.queue(source)
-        print(":: player.play")
-        self.player.play()
+        print(":: playing")
+        self.player = source.play()
 
         self.state = self.STATES['playing']
 
     def play(self):
+        print(":: in PLAY")
         if self.state == self.STATES['paused']:
             print(":: player.pause")
             self.player.pause()
