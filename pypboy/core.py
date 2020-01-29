@@ -2,6 +2,7 @@ import pygame
 import config
 import game
 import pypboy.ui
+import pyglet
 
 from pypboy.modules import data
 from pypboy.modules import items
@@ -107,6 +108,7 @@ class Pypboy(game.core.Engine):
     def run(self):
         self.running = True
         while self.running:
+            pyglet.clock.tick()
             for event in pygame.event.get():
                 self.handle_event(event)
             self.update()
