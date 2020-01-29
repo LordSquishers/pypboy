@@ -1,7 +1,6 @@
 import pygame
 import config
 import os
-from builtins import str
 if config.gpioAvailable():
     import RPi.GPIO as GPIO
 
