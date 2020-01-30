@@ -2,28 +2,30 @@ import os
 import config
 import game
 import pygame
-from datetime import datetime
+import time
 from random import choice
 
 class MusicPlayer:
     def __init__(self, filename):
         self.filename = filename
+        self.playing = False
+        self.last_pause_pos = 0
+        self.last_start = time.time()
         pygame.mixer.music.load(filename)
 
-    def __del__(self):
-        self.stop()
-
     def play(self, start_pos = 0):
+        self.playing = True
+        self.last_start = time.time()
+        pygame.mixer.music.load(self.filename)
         pygame.mixer.music.play(0, start_pos)
 
     def pause(self):
-        pygame.mixer.music.pause()
+        self.playing = False
+        self.last_pause_pos += time.time() - self.last_start
+        pygame.mixer.music.stop()
 
     def unpause(self):
-        pygame.mixer.music.unpause()
-
-    def stop(self):
-        pygame.mixer.music.stop()
+        self.play(self.last_pause_pos)
 
 class RadioStation(game.Entity):
 
@@ -62,7 +64,7 @@ class RadioStation(game.Entity):
     def stop(self):
         self.state = self.STATES['stopped']
         if self.player:
-            self.player.stop()
+            self.player.pause()
 
     def load_files(self):
         files = []

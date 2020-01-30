@@ -38,9 +38,9 @@ class Module(pypboy.SubModule):
 
 	def select_station(self, station):
 		if hasattr(self, 'active_station') and self.active_station:
-			self.active_station.stop()
+			self.active_station.pause()
 		self.active_station = self.stations[station]
-		self.active_station.play_random()
+		self.active_station.play()
 
 
 	def handle_event(self, event):
