@@ -5,6 +5,26 @@ import pygame
 from datetime import datetime
 from random import choice
 
+class MusicPlayer:
+    def __init__(self, filename):
+        self.filename = filename
+        pygame.mixer.music.load(filename)
+
+    def __del__(self):
+        self.stop()
+
+    def play(self, start_pos = 0):
+        pygame.mixer.music.play(0, start_pos)
+
+    def pause(self):
+        pygame.mixer.music.pause()
+
+    def unpause(self):
+        pygame.mixer.music.unpause()
+
+    def stop(self):
+        pygame.mixer.music.stop()
+
 class RadioStation(game.Entity):
 
     STATES = {
@@ -21,42 +41,28 @@ class RadioStation(game.Entity):
         pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
     def play_random(self):
-        start_pos = 0
-        f = False
-
-        if hasattr(self, 'last_filename') and self.last_filename:
-            pygame.mixer.music.load(self.last_filename)
-
-            now = datetime.now().microsecond
-            curpos = self.last_playpos + (now - self.last_playtime)
-            # TODO
-
         f = choice(self.files)
-        self.filename = f
-        pygame.mixer.music.load(f)
-        pygame.mixer.music.play(0, start_pos)
+        self.player = MusicPlayer(f)
+        self.player.play()
         self.state = self.STATES['playing']
 
     def play(self):
         if self.state == self.STATES['paused']:
-            pygame.mixer.music.unpause()
+            if self.player:
+                self.player.unpause()
             self.state = self.STATES['playing']
         else:
             self.play_random()
 
     def pause(self):
         self.state = self.STATES['paused']
-        pygame.mixer.music.pause()
+        if self.player:
+            self.player.pause()
 
     def stop(self):
         self.state = self.STATES['stopped']
-        
-        if self.filename:
-            self.last_filename = self.filename
-            self.last_playpos = pygame.mixer.music.get_pos()
-            self.last_playtime = datetime.now().microsecond
-        
-        pygame.mixer.music.stop()
+        if self.player:
+            self.player.stop()
 
     def load_files(self):
         files = []
