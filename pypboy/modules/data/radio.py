@@ -2,6 +2,7 @@ import pypboy
 import config
 
 from pypboy.modules.data import radio_stations
+from pypboy.modules.data import oscilloscope
 
 class Module(pypboy.SubModule):
 
@@ -9,6 +10,10 @@ class Module(pypboy.SubModule):
 
 	def __init__(self, *args, **kwargs):
 		super(Module, self).__init__(*args, **kwargs)
+
+		self.oscilloscope = oscilloscope.Oscilloscope()
+		self.add(self.oscilloscope)
+
 		self.stations = [
 			radio_stations.AgathaRadio(),
 			radio_stations.DiamondCityRadio(),
@@ -19,6 +24,7 @@ class Module(pypboy.SubModule):
 			radio_stations.Vault101Radio(),
 		]
 		for station in self.stations:
+			station.set_oscilloscope(self.oscilloscope)
 			self.add(station)
 		self.active_station = None
 		config.radio = self

@@ -6,9 +6,10 @@ import time
 from random import choice
 
 class MusicPlayer:
-    def __init__(self, filename):
+    def __init__(self, filename, oscilloscope):
         self.filename = filename
         self.playing = False
+        self.oscilloscope = oscilloscope
         self.last_pause_pos = 0
         self.last_start = time.time()
 
@@ -16,11 +17,12 @@ class MusicPlayer:
         self.playing = True
         self.last_start = time.time()
         pygame.mixer.music.load(self.filename)
+        if self.oscilloscope:
+            self.oscilloscope.set_song(self.filename)
+    
         try:
             pygame.mixer.music.play(0, start_pos)
-            print(f'Song goes {self.filename}')
         except:
-            print(f'Song was over. {self.filename}')
             return False
         return True
 
@@ -28,11 +30,9 @@ class MusicPlayer:
         self.playing = False
         self.last_pause_pos += time.time() - self.last_start
         pygame.mixer.music.stop()
-        print(f'pause {self.filename} lpp {self.last_pause_pos}')
         return self.last_pause_pos
 
     def unpause(self):
-        print(f'unpause {self.filename}')
         self.play(self.last_pause_pos)
 
 class RadioStation(game.Entity):
@@ -52,11 +52,14 @@ class RadioStation(game.Entity):
         self.last_pause_pos = False
         pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
+    def set_oscilloscope(self, o):
+        self.oscilloscope = o
+
     def play_random(self):
         f = choice(self.files)
         self.last_pause_time = False
         self.last_pause_pos = False
-        self.player = MusicPlayer(f)
+        self.player = MusicPlayer(f, self.oscilloscope)
         self.player.play()
         self.state = self.STATES['playing']
 
@@ -87,9 +90,8 @@ class RadioStation(game.Entity):
     def load_files(self):
         files = []
         for f in os.listdir(self.directory):
-            if f.endswith(".mp3") or f.endswith(".ogg") or f.endswith(".wav"):
+            if f.endswith(".mp3") or f.endswith(".ogg") or f.endswith(".wav") or f.endswith(".flac"):
                 files.append(self.directory + f)
-        print(files)
         return files
 
 class DiamondCityRadio(RadioStation):
