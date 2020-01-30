@@ -11,20 +11,28 @@ class MusicPlayer:
         self.playing = False
         self.last_pause_pos = 0
         self.last_start = time.time()
-        pygame.mixer.music.load(filename)
 
     def play(self, start_pos = 0):
         self.playing = True
         self.last_start = time.time()
         pygame.mixer.music.load(self.filename)
-        pygame.mixer.music.play(0, start_pos)
+        try:
+            pygame.mixer.music.play(0, start_pos)
+            print(f'Song goes {self.filename}')
+        except:
+            print(f'Song was over. {self.filename}')
+            return False
+        return True
 
     def pause(self):
         self.playing = False
         self.last_pause_pos += time.time() - self.last_start
         pygame.mixer.music.stop()
+        print(f'pause {self.filename} lpp {self.last_pause_pos}')
+        return self.last_pause_pos
 
     def unpause(self):
+        print(f'unpause {self.filename}')
         self.play(self.last_pause_pos)
 
 class RadioStation(game.Entity):
@@ -40,10 +48,14 @@ class RadioStation(game.Entity):
         self.state = self.STATES['stopped']
         self.files = self.load_files()
         self.filename = False
+        self.last_pause_time = False
+        self.last_pause_pos = False
         pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
     def play_random(self):
         f = choice(self.files)
+        self.last_pause_time = False
+        self.last_pause_pos = False
         self.player = MusicPlayer(f)
         self.player.play()
         self.state = self.STATES['playing']
@@ -51,7 +63,12 @@ class RadioStation(game.Entity):
     def play(self):
         if self.state == self.STATES['paused']:
             if self.player:
-                self.player.unpause()
+                if self.last_pause_time:
+                    time_delta = time.time() - self.last_pause_time
+                    if not self.player.play(self.last_pause_pos + time_delta):
+                        self.play_random()
+                else:
+                    self.player.unpause()
             self.state = self.STATES['playing']
         else:
             self.play_random()
@@ -59,7 +76,8 @@ class RadioStation(game.Entity):
     def pause(self):
         self.state = self.STATES['paused']
         if self.player:
-            self.player.pause()
+            self.last_pause_time = time.time()
+            self.last_pause_pos = self.player.pause()
 
     def stop(self):
         self.state = self.STATES['stopped']
