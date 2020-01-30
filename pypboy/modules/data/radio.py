@@ -1,7 +1,7 @@
 import pypboy
 import config
 
-from pypboy.modules.data import entities
+from pypboy.modules.data import radio_stations
 
 class Module(pypboy.SubModule):
 
@@ -10,13 +10,13 @@ class Module(pypboy.SubModule):
 	def __init__(self, *args, **kwargs):
 		super(Module, self).__init__(*args, **kwargs)
 		self.stations = [
-			entities.AgathaRadio(),
-			entities.DiamondCityRadio(),
-			entities.EnclaveRadio(),
-			entities.GNRadio(),
-			entities.InstituteRadio(),
-			entities.MinutemenRadio(),
-			entities.Vault101Radio(),
+			radio_stations.AgathaRadio(),
+			radio_stations.DiamondCityRadio(),
+			radio_stations.EnclaveRadio(),
+			radio_stations.GNRadio(),
+			radio_stations.InstituteRadio(),
+			radio_stations.MinutemenRadio(),
+			radio_stations.Vault101Radio(),
 		]
 		for station in self.stations:
 			self.add(station)
