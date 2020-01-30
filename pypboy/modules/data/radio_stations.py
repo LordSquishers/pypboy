@@ -133,3 +133,18 @@ class GNRadio(RadioStation):
         self.label = 'Galaxy News Radio'
         self.directory = 'sounds/radio/gnr/'
         super(GNRadio, self).__init__(self, *args, **kwargs)
+
+# Potential TODO:
+# For each station, maintain a RNG and its starting seed.
+# Also build up a structure with all of the metadata for all
+# of the available tracks.
+# Whenever asked to unpause, reset the RNG with the saved seed
+# and perform a random walk through the tracks (essentially a
+# never ending playlist) until reaching the current time point.
+# Provide some mechanism to prevent this from taking a long time.
+# Probably the easiest would be to also keep track of the last
+# time the station was playing, and if asked to play after some
+# threshhold after that time, just start over.
+# Or just build a shuffled playlist and work through it until
+# it's all played, then reshuffle. Probably better anyways, 
+# less repeating of songs.
