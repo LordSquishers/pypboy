@@ -1,8 +1,7 @@
 import game
-import config as oldconfig
+import config
 import pygame
 import datetime
-from config import config
 
 class Header(game.Entity):
 
@@ -10,8 +9,8 @@ class Header(game.Entity):
         self.headline = headline
         self.title = title
 
-        self.screen_width = config['video']['width'].get()
-        self.screen_height = config['video']['height'].get()
+        self.screen_width = config.user_config['video']['width'].get()
+        self.screen_height = config.user_config['video']['height'].get()
 
         super(Header, self).__init__((self.screen_width, self.screen_height))
         self.rect[0] = 4
@@ -34,14 +33,14 @@ class Header(game.Entity):
             pygame.draw.line(self.image, (95, 255, 177),
                              (self.screen_width - 13, 15), (self.screen_width - 13, 35), 2)
 
-            text = oldconfig.FONTS[14].render(
+            text = config.FONTS[14].render(
                 "  %s  " % self.headline, True, (105, 251, 187), (0, 0, 0))
             self.image.blit(text, (26, 8))
-            text = oldconfig.FONTS[14].render(
+            text = config.FONTS[14].render(
                 self.title, True, (95, 255, 177), (0, 0, 0))
             self.image.blit(
                 text, ((self.screen_width - 154) - text.get_width() - 10, 19))
-            text = oldconfig.FONTS[14].render(
+            text = config.FONTS[14].render(
                 self._date, True, (95, 255, 177), (0, 0, 0))
             self.image.blit(text, ((self.screen_width - 141), 19))
             self._date = new_date
@@ -54,8 +53,8 @@ class Footer(game.Entity):
     def __init__(self):
         self.menu = []
 
-        self.screen_width = config['video']['width'].get()
-        self.screen_height = config['video']['height'].get()
+        self.screen_width = config.user_config['video']['width'].get()
+        self.screen_height = config.user_config['video']['height'].get()
 
         super(Footer, self).__init__((self.screen_width, self.screen_height))
         self.rect[0] = 4
@@ -80,7 +79,7 @@ class Footer(game.Entity):
             text_width = 0
             while text_width < 54:
                 spaces = " ".join([" " for x in range(padding)])
-                text = oldconfig.FONTS[12].render("%s%s%s" % (
+                text = config.FONTS[12].render("%s%s%s" % (
                     spaces, m, spaces), True, (105, 255, 187), (0, 0, 0))
                 text_width = text.get_size()[0]
                 padding += 1
@@ -96,13 +95,13 @@ class Footer(game.Entity):
 class Menu(game.Entity):
 
     def __init__(self, width, items=[], callbacks=[], selected=0):
-        super(Menu, self).__init__((width, config['video']['height'].get() - 80))
+        super(Menu, self).__init__((width, config.user_config['video']['height'].get() - 80))
         self.items = items
         self.callbacks = callbacks
         self.selected = 0
         self.select(selected)
 
-        if config['audio']['enabled'].get():
+        if config.user_config['audio']['enabled'].get():
             self.dial_move_sfx = pygame.mixer.Sound('sounds/dial_move.ogg')
 
     def select(self, item):
@@ -114,12 +113,12 @@ class Menu(game.Entity):
     def handle_action(self, action):
         if action == "dial_up":
             if self.selected > 0:
-                if config['audio']['enabled'].get():
+                if config.user_config['audio']['enabled'].get():
                     self.dial_move_sfx.play()
                 self.select(self.selected - 1)
         if action == "dial_down":
             if self.selected < len(self.items) - 1:
-                if config['audio']['enabled'].get():
+                if config.user_config['audio']['enabled'].get():
                     self.dial_move_sfx.play()
                 self.select(self.selected + 1)
 
@@ -127,7 +126,7 @@ class Menu(game.Entity):
         self.image.fill((0, 0, 0))
         offset = 5
         for i in range(len(self.items)):
-            text = oldconfig.FONTS[14].render(
+            text = config.FONTS[14].render(
                 " %s " % self.items[i], True, (105, 255, 187), (0, 0, 0))
             if i == self.selected:
                 selected_rect = (5, offset - 2, text.get_size()

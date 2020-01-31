@@ -2,7 +2,7 @@ import pygame
 import yaml
 import confuse
 
-config = confuse.Configuration('pypboy', 'pypboy')
+user_config = confuse.Configuration('pypboy', 'pypboy')
 
 EVENTS = {
     'SONG_END': pygame.USEREVENT + 1

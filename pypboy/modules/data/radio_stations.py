@@ -1,10 +1,9 @@
 import os
-import config as oldconfig
+import config
 import game
 import pygame
 import time
 from random import choice
-from config import config
 
 class MusicPlayer:
     def __init__(self, filename, oscilloscope):
@@ -15,7 +14,7 @@ class MusicPlayer:
         self.last_start = time.time()
 
     def play(self, start_pos = 0):
-        if not config['audio']['enabled'].get():
+        if not config.user_config['audio']['enabled'].get():
             return
         self.playing = True
         self.last_start = time.time()
@@ -30,7 +29,7 @@ class MusicPlayer:
         return True
 
     def pause(self):
-        if not config['audio']['enabled'].get():
+        if not config.user_config['audio']['enabled'].get():
             return
 
         self.playing = False
@@ -56,7 +55,7 @@ class RadioStation(game.Entity):
         self.filename = False
         self.last_pause_time = False
         self.last_pause_pos = False
-        pygame.mixer.music.set_endevent(oldconfig.EVENTS['SONG_END'])
+        pygame.mixer.music.set_endevent(config.EVENTS['SONG_END'])
 
     def set_oscilloscope(self, o):
         self.oscilloscope = o

@@ -1,7 +1,6 @@
 import pygame
 import time
-import config
-from config import config
+from config import user_config
 
 class Engine(object):
 
@@ -10,8 +9,8 @@ class Engine(object):
 
     def __init__(self, title, *args, **kwargs):
         super(Engine, self).__init__(*args, **kwargs)
-        self.width = config['video']['width'].get()
-        self.height = config['video']['height'].get()
+        self.width = user_config['video']['width'].get()
+        self.height = user_config['video']['height'].get()
         self.window = pygame.display.set_mode((self.width, self.height))
         self.screen = pygame.display.get_surface()
         pygame.display.set_caption(title)
