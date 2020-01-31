@@ -8,3 +8,15 @@ audio:
 map:
   latitude: -102.3016145
   longitude: 21.8841274
+
+key_bindings:
+  'F1': 'module_stats'
+  'F2': 'module_items'
+  'F3': 'module_data'
+  '1': 'knob_1'
+  '2': 'knob_2'
+  '3': 'knob_3'
+  '4': 'knob_4'
+  '5': 'knob_5'
+  'UP': 'dial_up'
+  'DOWN': 'dial_down'

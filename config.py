@@ -8,18 +8,30 @@ EVENTS = {
     'SONG_END': pygame.USEREVENT + 1
 }
 
-ACTIONS = {
-    pygame.K_F1: "module_stats",
-    pygame.K_F2: "module_items",
-    pygame.K_F3: "module_data",
-    pygame.K_1:	"knob_1",
-    pygame.K_2: "knob_2",
-    pygame.K_3: "knob_3",
-    pygame.K_4: "knob_4",
-    pygame.K_5: "knob_5",
-    pygame.K_UP: "dial_up",
-    pygame.K_DOWN: "dial_down"
+valid_actions = {
+    'module_stats', 
+    'module_items',
+    'module_data',
+    'knob_1',
+    'knob_2',
+    'knob_3',
+    'knob_4',
+    'knob_5',
+    'dial_up',
+    'dial_down',
 }
+ACTIONS = {}
+key_bindings = user_config['key_bindings'].get()
+for key, binding in key_bindings.items():
+    if binding in valid_actions:
+        key_name = 'K_' + key
+        pg_key = getattr(pygame, key_name, False)
+        if pg_key:
+            ACTIONS[pg_key] = binding
+        else:
+            print(f"Invalid key binding: {key}, ignoring.")
+    else:
+        print(f"Invalid key binding action: {binding}, ignoring.")
 
 # Using GPIO.BCM as mode
 GPIO_ACTIONS = {
