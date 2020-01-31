@@ -20,14 +20,15 @@ valid_actions = {
     'dial_up',
     'dial_down',
 }
-ACTIONS = {}
+
+KEY_ACTIONS = {}
 key_bindings = user_config['key_bindings'].get()
 for key, binding in key_bindings.items():
     if binding in valid_actions:
         key_name = 'K_' + key
         pg_key = getattr(pygame, key_name, False)
         if pg_key:
-            ACTIONS[pg_key] = binding
+            KEY_ACTIONS[pg_key] = binding
         else:
             print(f"Invalid key binding: {key}, ignoring.")
     else:

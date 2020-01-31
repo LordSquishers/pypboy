@@ -93,8 +93,8 @@ class Pypboy(game.core.Engine):
             if (event.key == pygame.K_ESCAPE):
                 self.running = False
             else:
-                if event.key in config.ACTIONS:
-                    self.handle_action(config.ACTIONS[event.key])
+                if event.key in config.KEY_ACTIONS:
+                    self.handle_action(config.KEY_ACTIONS[event.key])
         elif event.type == pygame.QUIT:
             self.running = False
         elif event.type == config.EVENTS['SONG_END']:
