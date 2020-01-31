@@ -20,3 +20,16 @@ key_bindings:
   '5': 'knob_5'
   'UP': 'dial_up'
   'DOWN': 'dial_down'
+
+# Using GPIO.BCM as mode
+gpio_bindings:
+  4: 'module_stats'
+  14: 'module_items'
+  15: 'module_data'
+  17: 'knob_1'
+  18: 'knob_2'
+  7: 'knob_3'
+  22: 'knob_4'
+  23: 'knob_5'
+  31: 'dial_up'
+  27: 'dial_down'

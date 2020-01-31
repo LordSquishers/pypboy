@@ -34,19 +34,13 @@ for key, binding in key_bindings.items():
     else:
         print(f"Invalid key binding action: {binding}, ignoring.")
 
-# Using GPIO.BCM as mode
-GPIO_ACTIONS = {
-#    4: "module_stats",  # GPIO 4
-#    14: "module_items",  # GPIO 14
-#    15: "module_data",  # GPIO 15
-#    17:	"knob_1",  # GPIO 17
-#    18: "knob_2",  # GPIO 18
-#    7: "knob_3",  # GPIO 7
-#    22: "knob_4",  # GPIO 22
-#    23: "knob_5",  # GPIO 27
-    #	31: "dial_up", #GPIO 23
-#    27: "dial_down"  # GPIO 7
-}
+GPIO_ACTIONS = {}
+gpio_bindings = user_config['gpio_bindings'].get()
+for pin, binding in gpio_bindings.items():
+    if binding in valid_actions:
+        GPIO_ACTIONS[pin] = binding
+    else:
+        print(f"Invalid GPIO binding action: {binding}, ignoring.")
 
 MAP_ICONS = {
     "camp": 		pygame.image.load('images/map_icons/camp.png'),
