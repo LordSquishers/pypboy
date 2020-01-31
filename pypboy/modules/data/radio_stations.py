@@ -48,8 +48,10 @@ class RadioStation(game.Entity):
         'paused': 2
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, label, directory, *args, **kwargs):
         super(RadioStation, self).__init__((10, 10), *args, **kwargs)
+        self.label = label
+        self.directory = directory
         self.state = self.STATES['stopped']
         self.files = self.load_files()
         self.filename = False
@@ -101,48 +103,6 @@ class RadioStation(game.Entity):
             if f.endswith(".mp3") or f.endswith(".ogg") or f.endswith(".wav") or f.endswith(".flac"):
                 files.append(self.directory + f)
         return files
-
-class DiamondCityRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Diamond City Radio'
-        self.directory = 'sounds/radio/DCR/'
-        super(DiamondCityRadio, self).__init__(self, *args, **kwargs)
-
-class EnclaveRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Enclave Radio'
-        self.directory = 'sounds/radio/Enclave/'
-        super(EnclaveRadio, self).__init__(self, *args, **kwargs)
-
-class InstituteRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Institute Radio'
-        self.directory = 'sounds/radio/Institute/'
-        super(InstituteRadio, self).__init__(self, *args, **kwargs)
-
-class MinutemenRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Minutemen Radio'
-        self.directory = 'sounds/radio/Minutemen/'
-        super(MinutemenRadio, self).__init__(self, *args, **kwargs)
-
-class Vault101Radio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Vault 101 PA System'
-        self.directory = 'sounds/radio/V101/'
-        super(Vault101Radio, self).__init__(self, *args, **kwargs)
-
-class AgathaRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Agatha\'s Station'
-        self.directory = 'sounds/radio/Violin/'
-        super(AgathaRadio, self).__init__(self, *args, **kwargs)
-
-class GNRadio(RadioStation):
-    def __init__(self, *args, **kwargs):
-        self.label = 'Galaxy News Radio'
-        self.directory = 'sounds/radio/gnr/'
-        super(GNRadio, self).__init__(self, *args, **kwargs)
 
 # Potential TODO:
 # For each station, maintain a RNG and its starting seed.
