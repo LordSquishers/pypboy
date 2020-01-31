@@ -1,15 +1,19 @@
 import game
-import config
+import config as oldconfig
 import pygame
 import datetime
-
+from config import config
 
 class Header(game.Entity):
 
     def __init__(self, headline="", title=""):
         self.headline = headline
         self.title = title
-        super(Header, self).__init__((config.WIDTH, config.HEIGHT))
+
+        self.screen_width = config['video']['width'].get()
+        self.screen_height = config['video']['height'].get()
+
+        super(Header, self).__init__((self.screen_width, self.screen_height))
         self.rect[0] = 4
         self._date = None
 
@@ -22,24 +26,24 @@ class Header(game.Entity):
             self.image.fill((0, 0, 0))
             pygame.draw.line(self.image, (95, 255, 177), (5, 15), (5, 35), 2)
             pygame.draw.line(self.image, (95, 255, 177),
-                             (5, 15), (config.WIDTH - 154, 15), 2)
+                             (5, 15), (self.screen_width - 154, 15), 2)
             pygame.draw.line(self.image, (95, 255, 177),
-                             (config.WIDTH - 154, 15), (config.WIDTH - 154, 35), 2)
+                             (self.screen_width - 154, 15), (self.screen_width - 154, 35), 2)
             pygame.draw.line(self.image, (95, 255, 177),
-                             (config.WIDTH - 148, 15), (config.WIDTH - 13, 15), 2)
+                             (self.screen_width - 148, 15), (self.screen_width - 13, 15), 2)
             pygame.draw.line(self.image, (95, 255, 177),
-                             (config.WIDTH - 13, 15), (config.WIDTH - 13, 35), 2)
+                             (self.screen_width - 13, 15), (self.screen_width - 13, 35), 2)
 
-            text = config.FONTS[14].render(
+            text = oldconfig.FONTS[14].render(
                 "  %s  " % self.headline, True, (105, 251, 187), (0, 0, 0))
             self.image.blit(text, (26, 8))
-            text = config.FONTS[14].render(
+            text = oldconfig.FONTS[14].render(
                 self.title, True, (95, 255, 177), (0, 0, 0))
             self.image.blit(
-                text, ((config.WIDTH - 154) - text.get_width() - 10, 19))
-            text = config.FONTS[14].render(
+                text, ((self.screen_width - 154) - text.get_width() - 10, 19))
+            text = oldconfig.FONTS[14].render(
                 self._date, True, (95, 255, 177), (0, 0, 0))
-            self.image.blit(text, ((config.WIDTH - 141), 19))
+            self.image.blit(text, ((self.screen_width - 141), 19))
             self._date = new_date
 
         super(Header, self).update(*args, **kwargs)
@@ -49,9 +53,13 @@ class Footer(game.Entity):
 
     def __init__(self):
         self.menu = []
-        super(Footer, self).__init__((config.WIDTH, config.HEIGHT))
+
+        self.screen_width = config['video']['width'].get()
+        self.screen_height = config['video']['height'].get()
+
+        super(Footer, self).__init__((self.screen_width, self.screen_height))
         self.rect[0] = 4
-        self.rect[1] = config.HEIGHT - 40
+        self.rect[1] = self.screen_height - 40
 
     def update(self, *args, **kwargs):
         super(Footer, self).update(*args, **kwargs)
@@ -62,9 +70,9 @@ class Footer(game.Entity):
         self.image.fill((0, 0, 0))
         pygame.draw.line(self.image, (95, 255, 177), (5, 2), (5, 20), 2)
         pygame.draw.line(self.image, (95, 255, 177),
-                         (5, 20), (config.WIDTH - 13, 20), 2)
+                         (5, 20), (self.screen_width - 13, 20), 2)
         pygame.draw.line(self.image, (95, 255, 177),
-                         (config.WIDTH - 13, 2), (config.WIDTH - 13, 20), 2)
+                         (self.screen_width - 13, 2), (self.screen_width - 13, 20), 2)
 
         offset = 20
         for m in self.menu:
@@ -72,7 +80,7 @@ class Footer(game.Entity):
             text_width = 0
             while text_width < 54:
                 spaces = " ".join([" " for x in range(padding)])
-                text = config.FONTS[12].render("%s%s%s" % (
+                text = oldconfig.FONTS[12].render("%s%s%s" % (
                     spaces, m, spaces), True, (105, 255, 187), (0, 0, 0))
                 text_width = text.get_size()[0]
                 padding += 1
@@ -88,13 +96,13 @@ class Footer(game.Entity):
 class Menu(game.Entity):
 
     def __init__(self, width, items=[], callbacks=[], selected=0):
-        super(Menu, self).__init__((width, config.HEIGHT - 80))
+        super(Menu, self).__init__((width, config['video']['height'].get() - 80))
         self.items = items
         self.callbacks = callbacks
         self.selected = 0
         self.select(selected)
 
-        if config.SOUND_ENABLED:
+        if config['audio']['enabled'].get():
             self.dial_move_sfx = pygame.mixer.Sound('sounds/dial_move.ogg')
 
     def select(self, item):
@@ -106,12 +114,12 @@ class Menu(game.Entity):
     def handle_action(self, action):
         if action == "dial_up":
             if self.selected > 0:
-                if config.SOUND_ENABLED:
+                if config['audio']['enabled'].get():
                     self.dial_move_sfx.play()
                 self.select(self.selected - 1)
         if action == "dial_down":
             if self.selected < len(self.items) - 1:
-                if config.SOUND_ENABLED:
+                if config['audio']['enabled'].get():
                     self.dial_move_sfx.play()
                 self.select(self.selected + 1)
 
@@ -119,7 +127,7 @@ class Menu(game.Entity):
         self.image.fill((0, 0, 0))
         offset = 5
         for i in range(len(self.items)):
-            text = config.FONTS[14].render(
+            text = oldconfig.FONTS[14].render(
                 " %s " % self.items[i], True, (105, 255, 187), (0, 0, 0))
             if i == self.selected:
                 selected_rect = (5, offset - 2, text.get_size()
@@ -133,7 +141,7 @@ class Scanlines(game.Entity):
 
     def __init__(self, width, height, gap, speed, colours, full_push=False):
         super(Scanlines, self).__init__((width, height))
-        self.width = width
+        self.screen_width = width
         self.height = height
         self.move = gap * len(colours)
         self.gap = gap
@@ -143,7 +151,7 @@ class Scanlines(game.Entity):
         self.speed = speed
         self.full_push = full_push
         colour = 0
-        area = pygame.Rect(0, self.rect[1] * self.speed, self.width, self.gap)
+        area = pygame.Rect(0, self.rect[1] * self.speed, self.screen_width, self.gap)
         while area.top <= self.height - self.gap:
             self.image.fill(self.colours[colour], area)
             area.move_ip(0, (self.gap))
@@ -167,7 +175,7 @@ class Scanlines(game.Entity):
 class Overlay(game.Entity):
     def __init__(self):
         self.image = pygame.image.load('images/overlay.png')
-        super(Overlay, self).__init__((config.WIDTH, config.HEIGHT))
+        super(Overlay, self).__init__((self.screen_width, self.screen_height))
         self.blit_alpha(self, self.image, (0, 0), 128)
 
     def blit_alpha(self, target, source, location, opacity):

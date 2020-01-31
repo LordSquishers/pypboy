@@ -1,10 +1,8 @@
 import pygame
+import yaml
+import confuse
 
-WIDTH = 480
-HEIGHT = 320
-
-# OUTPUT_WIDTH = 320
-# OUTPUT_HEIGHT = 240
+config = confuse.Configuration('pypboy', 'pypboy')
 
 #MAP_FOCUS = (-5.9347681, 54.5889076)
 MAP_FOCUS = (-102.3016145, 21.8841274)

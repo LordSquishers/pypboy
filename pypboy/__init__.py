@@ -1,9 +1,10 @@
 import pygame
 import game
-import config
+import config as oldconfig
 import pypboy.ui
+from config import config
 
-if config.gpioAvailable():
+if oldconfig.gpioAvailable():
     import RPi.GPIO as GPIO
 
 
@@ -14,7 +15,7 @@ class BaseModule(game.EntityGroup):
     def __init__(self, boy, *args, **kwargs):
         super(BaseModule, self).__init__()
 
-        if config.gpioAvailable():
+        if oldconfig.gpioAvailable():
             GPIO.setup(self.GPIO_LED_ID, GPIO.OUT)
             GPIO.output(self.GPIO_LED_ID, False)
 
@@ -26,7 +27,7 @@ class BaseModule(game.EntityGroup):
         for mod in self.submodules:
             self.footer.menu.append(mod.label)
         self.footer.selected = self.footer.menu[0]
-        self.footer.position = (0, config.HEIGHT - 53)  # 80
+        self.footer.position = (0, config['video']['height'].get() - 53)  # 80
         self.add(self.footer)
 
         self.switch_submodule(0)
@@ -35,7 +36,7 @@ class BaseModule(game.EntityGroup):
             "pause": self.handle_pause,
             "resume": self.handle_resume
         }
-        if config.SOUND_ENABLED:
+        if config['audio']['enabled'].get():
             self.module_change_sfx = pygame.mixer.Sound(
                 'sounds/module_change.ogg')
 
@@ -77,14 +78,14 @@ class BaseModule(game.EntityGroup):
 
     def handle_pause(self):
         self.paused = True
-        if config.gpioAvailable():
+        if oldconfig.gpioAvailable():
             GPIO.output(self.GPIO_LED_ID, False)
 
     def handle_resume(self):
         self.paused = False
-        if config.gpioAvailable():
+        if oldconfig.gpioAvailable():
             GPIO.output(self.GPIO_LED_ID, True)
-        if config.SOUND_ENABLED:
+        if config['audio']['enabled'].get():
             self.module_change_sfx.play()
 
 
@@ -99,7 +100,7 @@ class SubModule(game.EntityGroup):
             "resume": self.handle_resume
         }
 
-        if config.SOUND_ENABLED:
+        if config['audio']['enabled'].get():
             self.submodule_change_sfx = pygame.mixer.Sound(
                 'sounds/submodule_change.ogg')
 
@@ -118,5 +119,5 @@ class SubModule(game.EntityGroup):
 
     def handle_resume(self):
         self.paused = False
-        if config.SOUND_ENABLED:
+        if config['audio']['enabled'].get():
             self.submodule_change_sfx.play()

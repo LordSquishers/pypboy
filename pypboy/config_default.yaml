@@ -1,0 +1,7 @@
+video:
+  width: 480
+  height: 320
+
+audio:
+  enabled: True
+  

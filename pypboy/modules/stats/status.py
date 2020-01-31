@@ -1,8 +1,9 @@
 import pypboy
 import pygame
 import game
-import config
+import config as oldconfig
 import pypboy.ui
+from config import config
 
 
 class Module(pypboy.SubModule):
@@ -43,7 +44,7 @@ class Health(game.Entity):
         self.image = pygame.image.load('images/pipboy.png')
         self.rect = self.image.get_rect()
         self.image = self.image.convert()
-        text = config.FONTS[18].render(
+        text = oldconfig.FONTS[18].render(
             "Grieve - Level 27", True, (105, 251, 187), (0, 0, 0))
         text_width = text.get_size()[0]
-        self.image.blit(text, (config.WIDTH / 2 - 8 - text_width / 2, 250))
+        self.image.blit(text, (config['video']['width'].get() / 2 - 8 - text_width / 2, 250))
