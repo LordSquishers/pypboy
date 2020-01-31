@@ -25,7 +25,6 @@ class Map(game.Entity):
         self.image.blit(text, (10, 10))
 
     def fetch_map(self, position, radius):
-        #(-5.9234923, 54.5899493)
         self._fetching = threading.Thread(
             target=self._internal_fetch_map, args=(position, radius))
         self._fetching.start()

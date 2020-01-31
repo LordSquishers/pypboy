@@ -4,4 +4,7 @@ video:
 
 audio:
   enabled: True
-  
+
+map:
+  latitude: -102.3016145
+  longitude: 21.8841274

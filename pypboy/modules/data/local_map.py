@@ -1,6 +1,5 @@
 import pygame
 import pypboy
-import config as oldconfig
 from config import config
 
 from pypboy.modules.data import entities
@@ -16,7 +15,10 @@ class Module(pypboy.SubModule):
 		screen_height = config['video']['height'].get()
 
 		mapgrid = entities.Map(screen_width, pygame.Rect(4, (screen_width - screen_height) / 2, screen_width - 8, screen_height - 80))
-		mapgrid.fetch_map(oldconfig.MAP_FOCUS, 0.003)
+
+		location = [config['map']['latitude'].get(), config['map']['longitude'].get()]
+
+		mapgrid.fetch_map(location, 0.003)
 		self.add(mapgrid)
 		mapgrid.rect[0] = 4
 		mapgrid.rect[1] = 40

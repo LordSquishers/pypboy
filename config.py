@@ -4,9 +4,6 @@ import confuse
 
 config = confuse.Configuration('pypboy', 'pypboy')
 
-#MAP_FOCUS = (-5.9347681, 54.5889076)
-MAP_FOCUS = (-102.3016145, 21.8841274)
-
 EVENTS = {
     'SONG_END': pygame.USEREVENT + 1
 }
