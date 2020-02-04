@@ -39,7 +39,7 @@ class Radio(game.Entity):
 		file = files[randint(0, len(files)-1)]
 		self.filename = file
 		pygame.mixer.music.load(file)
-		self.spectrum = LogSpectrum(file, force_mono=True)
+		self.spectrum = LogSpectrum(file)
 		pygame.mixer.music.play()
 		self.loaded = True
 		self.paused = False
@@ -180,7 +180,7 @@ def play_pygame(file):
 		clock.tick(50)
 	
 	pygame.mixer.music.load(file)
-	s = LogSpectrum(file,force_mono=True) 
+	s = LogSpectrum(file) 
 	osc = Oscilloscope() 
 	osc.open()
 	

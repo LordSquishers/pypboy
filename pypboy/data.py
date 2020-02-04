@@ -5,7 +5,7 @@ from numpy.fft import fft
 from math import log10
 import math
 import pygame
-
+import soundfile as sf
 
 class Maps(object):
 
@@ -163,38 +163,29 @@ class SoundSpectrum:
     left = None
     right = None
 
-    def __init__(self, filename, force_mono=False):
+    def __init__(self, filename):
         """ 
         Create a new SoundSpectrum instance given the filename of 
-        a sound file pygame can read. If the sound is stereo, two 
+        a sound file soundfile can read. If the sound is stereo, two 
         spectra are available. Optionally mono can be forced. 
         """
-        # Get playback frequency
-        nu_play, format, stereo = pygame.mixer.get_init()
-        self.nu_play = 1./nu_play
-        self.format = format
-        self.stereo = stereo
 
-        # Load sound and convert to array(s)
-        sound = pygame.mixer.Sound(filename)
-        a = pygame.sndarray.array(sound)
-        a = numpy.array(a)
-        if stereo:
-            if force_mono:
-                self.stereo = 0
-                self.left = (a[:, 0] + a[:, 1])*0.5
-            else:
-                self.left = a[:, 0]
-                self.right = a[:, 1]
+        a, samplerate = sf.read(filename)
+        self.nu_play = 1.0 / samplerate
+
+        if a.ndim > 1:
+            self.left = a[:, 0]
+            self.right = a[:, 1]
         else:
             self.left = a
+            self.right = []
 
     def get(self, data, start, stop):
         """ 
         Return spectrum of given data, between start and stop 
         time in seconds. 
         """
-        duration = stop-start
+        duration = stop - start
         # Filter data
         start = int(start/self.nu_play)
         stop = int(stop/self.nu_play)
@@ -202,10 +193,10 @@ class SoundSpectrum:
         data = data[start:stop]
 
         # Get frequencies
-        frequency = numpy.arange(N/2)/duration
+        frequency = numpy.arange(N // 2) / duration
 
         # Calculate spectrum
-        spectrum = fft(data)[1:1+N/2]
+        spectrum = fft(data)[1:1 + N // 2]
         power = (spectrum).real
 
         return frequency, power
@@ -224,15 +215,6 @@ class SoundSpectrum:
         """
         return self.get(self.right, start, stop)
 
-    def get_mono(self, start, stop):
-        """ 
-        Return mono spectrum between start and stop times in seconds. 
-        Note: this only works if sound was loaded as mono or mono 
-        was forced. 
-        """
-        return self.get(self.left, start, stop)
-
-
 class LogSpectrum(SoundSpectrum):
     """ 
     A SoundSpectrum where the spectrum is divided into 
@@ -240,7 +222,7 @@ class LogSpectrum(SoundSpectrum):
     returned. 
     """
 
-    def __init__(self, filename, force_mono=False, bins=20, start=1e2, stop=1e4):
+    def __init__(self, filename, bins=20, start=1e2, stop=1e4):
         """ 
         Create a new LogSpectrum instance given the filename of 
         a sound file pygame can read. If the sound is stereo, two 
@@ -248,7 +230,7 @@ class LogSpectrum(SoundSpectrum):
         The number of spectral bins as well as the frequency range 
         can be specified. 
         """
-        SoundSpectrum.__init__(self, filename, force_mono=force_mono)
+        SoundSpectrum.__init__(self, filename)
         start = log10(start)
         stop = log10(stop)
         step = (stop - start)/bins

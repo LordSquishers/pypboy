@@ -5,6 +5,7 @@ import game
 import copy
 import traceback
 import pygame
+import math
 from pypboy import data
 
 class Oscilloscope(game.Entity):
@@ -38,17 +39,20 @@ class Oscilloscope(game.Entity):
         self.song_data = False
 
     def set_song(self, filename):
-#        self.song_data = data.LogSpectrum(filename,force_mono=True) 
+        self.song_data = data.LogSpectrum(filename) 
         return
 
     def update(self, *args, **kwargs):
-        return
         try:
             pixels = copy.copy(self.blank)
 
             if self.song_data:
                 start = pygame.mixer.music.get_pos() / 1000.0
-                _,power = self.song_data.get_mono(start-0.001, start+0.001)
+                time = start * 50.0
+
+                _, lpower = self.song_data.get_left(start-0.001, start+0.001)
+                _, rpower = self.song_data.get_right(start-0.001, start+0.001)
+                power = (lpower + rpower) / 2.0
 
                 offset = 1
                 for x in range(self.WIDTH):
@@ -57,21 +61,22 @@ class Oscilloscope(game.Entity):
                         offset = offset + 1.1		 
                     try:
                         pow = power[int(x/10)]
-                        print("POW")
                         log = math.log10( pow )
-                        offset = ((pow / math.pow(10, math.floor(log))) + log)*1.8
+                        offset = ((pow / math.pow(10, math.floor(log))) + log) * 1.8
                     except:
                         pass
                     try: 
-                        y = float(self.xaxis) - (math.sin((float(x)+float(time))/5.0)*2.0*offset) 
+#                        y = int(float(self.xaxis) - (math.sin((float(x)+float(time))/5.0)*2.0*offset))
+                        y = int(float(self.xaxis) + offset * 2.0)
                         pixels[x][y] = self.TRACE
                         pixels[x][y-1] = self.AFTER
                         pixels[x][y+1] = self.AFTER
                         if abs(y) > 120:
                             pixels[x][y-2] = self.AFTER
                             pixels[x][y+2] = self.AFTER
-                    except: 
-                        pass
+                    except Exception as e:
+                        print(traceback.format_exc())
+
             pygame.surfarray.blit_array(self.image, pixels)	 # Blit the screen buffer
         except:
             print(traceback.format_exc())
