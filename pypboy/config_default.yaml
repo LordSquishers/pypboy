@@ -4,7 +4,7 @@ video:
 
 audio:
   enabled: True
-  oscilloscope_factor: 1 # Mostly meaningless, just tweak to your liking.
+  oscilloscope_factor: 2 # Mostly meaningless, just tweak to your liking.
 
 map:
   latitude: -102.3016145

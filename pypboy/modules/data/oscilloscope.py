@@ -13,8 +13,7 @@ class SoundData:
     right = None
 
     def __init__(self, filename):
-        a, samplerate = sf.read(filename)
-        self.nu_play = 1.0 / samplerate
+        a, self.samplerate = sf.read(filename)
 
         if a.ndim > 1:
             self.stereo = True
@@ -33,8 +32,8 @@ class SoundData:
         Return the raw samples, between start and stop
         time in seconds.
         """
-        start = int(start / self.nu_play)
-        stop = int(stop / self.nu_play)
+        start = int(start * self.samplerate)
+        stop = int(stop * self.samplerate)
         return data[start:stop]
 
     def get_left(self, start, stop):
@@ -78,7 +77,6 @@ class Oscilloscope(game.Entity):
     def set_song(self, filename):
         self.last_start = -1
         self.song_data = SoundData(filename) 
-        return
 
     def update(self, *args, **kwargs):
         start = pygame.mixer.music.get_pos() / 1000.0
@@ -103,7 +101,7 @@ class Oscilloscope(game.Entity):
                         if rsamples != []:
                             samp = (samp + rsamples[x]) / 2
 
-                        y = int(float(self.xaxis) + samp * self.HEIGHT * 0.9)
+                        y = int(float(self.xaxis) + samp * self.HEIGHT * 0.8)
                         pixels[x][y] = self.TRACE
                         pixels[x][y-1] = self.AFTER
                         pixels[x][y+1] = self.AFTER
