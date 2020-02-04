@@ -6,7 +6,42 @@ import copy
 import traceback
 import pygame
 import math
-from pypboy import data
+import soundfile as sf
+
+class SoundData:
+    left = None
+    right = None
+
+    def __init__(self, filename):
+        a, samplerate = sf.read(filename)
+        self.nu_play = 1.0 / samplerate
+
+        if a.ndim > 1:
+            self.stereo = True
+            self.left = a[:, 0]
+            self.right = a[:, 1]
+        else:
+            self.stereo = False
+            self.left = a
+            self.right = []
+
+    def is_stereo(self):
+        return self.stereo
+
+    def get_samples(self, data, start, stop):
+        """
+        Return the raw samples, between start and stop
+        time in seconds.
+        """
+        start = int(start / self.nu_play)
+        stop = int(stop / self.nu_play)
+        return data[start:stop]
+
+    def get_left(self, start, stop):
+        return self.get_samples(self.left, start, stop)
+
+    def get_right(self, start, stop):
+        return self.get_samples(self.right, start, stop)
 
 class Oscilloscope(game.Entity):
 
@@ -16,6 +51,8 @@ class Oscilloscope(game.Entity):
         super(Oscilloscope, self).__init__((self.WIDTH, self.HEIGHT))
         self.rect[0] = 250
         self.rect[1] = 55
+
+        self.width_factor = config.user_config['audio']['oscilloscope_factor'].get()
 
         # Create a blank chart with vertical ticks, etc
         self.blank = numpy.zeros((self.WIDTH, self.HEIGHT, 3))
@@ -39,35 +76,34 @@ class Oscilloscope(game.Entity):
         self.song_data = False
 
     def set_song(self, filename):
-        self.song_data = data.LogSpectrum(filename) 
+        self.last_start = -1
+        self.song_data = SoundData(filename) 
         return
 
     def update(self, *args, **kwargs):
+        start = pygame.mixer.music.get_pos() / 1000.0
+        if start == self.last_start:
+            return
+        self.last_start = start
+
         try:
             pixels = copy.copy(self.blank)
 
             if self.song_data:
-                start = pygame.mixer.music.get_pos() / 1000.0
-                time = start * 50.0
+                end = start + self.WIDTH * self.width_factor
 
-                _, lpower = self.song_data.get_left(start-0.001, start+0.001)
-                _, rpower = self.song_data.get_right(start-0.001, start+0.001)
-                power = (lpower + rpower) / 2.0
+                lsamples = self.song_data.get_left(start, end)
+                rsamples = []
+                if self.song_data.is_stereo():
+                    rsamples = self.song_data.get_right(start, end)
 
-                offset = 1
                 for x in range(self.WIDTH):
-                    offset = offset - 1
-                    if offset < -1:
-                        offset = offset + 1.1		 
-                    try:
-                        pow = power[int(x/10)]
-                        log = math.log10( pow )
-                        offset = ((pow / math.pow(10, math.floor(log))) + log) * 1.8
-                    except:
-                        pass
                     try: 
-#                        y = int(float(self.xaxis) - (math.sin((float(x)+float(time))/5.0)*2.0*offset))
-                        y = int(float(self.xaxis) + offset * 2.0)
+                        samp = lsamples[x]
+                        if rsamples != []:
+                            samp = (samp + rsamples[x]) / 2
+
+                        y = int(float(self.xaxis) + samp * self.HEIGHT * 0.9)
                         pixels[x][y] = self.TRACE
                         pixels[x][y-1] = self.AFTER
                         pixels[x][y+1] = self.AFTER
