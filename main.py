@@ -10,7 +10,9 @@ if config.gpioAvailable():
 
     # Init framebuffer/touchscreen environment variables
     os.putenv('SDL_VIDEODRIVER', 'fbcon')
-    os.putenv('SDL_FBDEV', '/dev/fb1')
+
+    fbdev = config.user_config['video']['fbdev'].get()
+    os.putenv('SDL_FBDEV', fbdev)
 #    os.putenv('SDL_MOUSEDRV', 'TSLIB')
 #    os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
 else:
