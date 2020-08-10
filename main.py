@@ -8,13 +8,12 @@ if config.gpioAvailable():
 if config.gpioAvailable():
     GPIO.setmode(GPIO.BCM)
 
-    # Init framebuffer/touchscreen environment variables
-    os.putenv('SDL_VIDEODRIVER', 'fbcon')
+    driver = config.user_config['video']['driver'].get()
+    print("Using driver %s" % driver)
+    os.putenv('SDL_VIDEODRIVER', driver)
 
     fbdev = config.user_config['video']['fbdev'].get()
     os.putenv('SDL_FBDEV', fbdev)
-#    os.putenv('SDL_MOUSEDRV', 'TSLIB')
-#    os.putenv('SDL_MOUSEDEV', '/dev/input/event2')
 else:
     print("GPIO UNAVAILABLE")
 
