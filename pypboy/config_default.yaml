@@ -1,6 +1,8 @@
 video:
   width: 480
   height: 320
+  fbdev: fb0
+  driver: directfb
 
 audio:
   enabled: True
