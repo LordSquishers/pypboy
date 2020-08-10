@@ -11,7 +11,9 @@ class Engine(object):
         super(Engine, self).__init__(*args, **kwargs)
         self.width = user_config['video']['width'].get()
         self.height = user_config['video']['height'].get()
-        self.window = pygame.display.set_mode((self.width, self.height))
+
+        pygame.init()
+        self.window = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         self.screen = pygame.display.get_surface()
         pygame.display.set_caption(title)
         pygame.mouse.set_visible(True)
