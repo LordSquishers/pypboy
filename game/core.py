@@ -16,7 +16,7 @@ class Engine(object):
         self.window = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         self.screen = pygame.display.get_surface()
         pygame.display.set_caption(title)
-        pygame.mouse.set_visible(True)
+        pygame.mouse.set_visible(False)
 
         self.groups = []
         self.root_children = EntityGroup()
