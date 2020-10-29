@@ -8,8 +8,7 @@ from pypboy.modules import items
 from pypboy.modules import stats
 
 if config.gpioAvailable():
-    import RPi.GPIO as GPIO
-
+    from gpiozero import Button
 
 class Pypboy(game.core.Engine):
 
@@ -20,7 +19,7 @@ class Pypboy(game.core.Engine):
         self.init_children()
         self.init_modules()
 
-        self.gpio_actions = {}
+        self.gpio_buttons = {}
         if config.gpioAvailable():
             self.init_gpio_controls()
 
@@ -51,13 +50,8 @@ class Pypboy(game.core.Engine):
         for pin in config.GPIO_ACTIONS.keys():
             print("Intialising pin %s as action '%s'" %
                   (pin, config.GPIO_ACTIONS[pin]))
-            GPIO.setup(pin, GPIO.IN)
-            self.gpio_actions[pin] = config.GPIO_ACTIONS[pin]
-
-    def check_gpio_input(self):
-        for pin in self.gpio_actions.keys():
-            if not GPIO.input(pin):
-                self.handle_action(self.gpio_actions[pin])
+            self.gpio_buttons[pin] = Button(pin, pull_up=True)
+            self.gpio_buttons[pin].when_pressed = lambda pin=pin: self.handle_action(config.GPIO_ACTIONS[pin])
 
     def update(self):
         if hasattr(self, 'active'):
@@ -82,6 +76,7 @@ class Pypboy(game.core.Engine):
             print("Module '%s' not implemented." % module)
 
     def handle_action(self, action):
+        print("handle action '%s'" % action)
         if action.startswith('module_'):
             self.switch_module(action[7:])
         else:
@@ -111,7 +106,6 @@ class Pypboy(game.core.Engine):
                 self.handle_event(event)
             self.update()
             self.render()
-            self.check_gpio_input()
             pygame.time.wait(10)
 
         try:

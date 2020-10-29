@@ -3,4 +3,5 @@ requests
 xmltodict
 numpy
 confuse
+gpiozero
 

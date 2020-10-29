@@ -7,7 +7,6 @@ from config import user_config
 if config.gpioAvailable():
     import RPi.GPIO as GPIO
 
-
 class BaseModule(game.EntityGroup):
 
     submodules = []
