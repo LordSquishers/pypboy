@@ -23,6 +23,10 @@ class Pypboy(game.core.Engine):
         self.gpio_buttons = {}
         self.rotary_control = None  
         self.rotary_mode = 0
+
+        if config.user_config['audio']['enabled'].get():
+            self.rotary_mode_change = pygame.mixer.Sound('sounds/module_change.ogg')
+
         if config.gpioAvailable():
             self.init_gpio_controls()
 
@@ -101,6 +105,8 @@ class Pypboy(game.core.Engine):
         if action.startswith('module_'):
             self.switch_module(action[7:])
         elif action == 'switch_dial_mode':
+            if self.rotary_mode_change:
+                self.rotary_mode_change.play()
             self.rotary_mode = self.rotary_mode + 1
             if self.rotary_mode > 1:
                 self.rotary_mode = 0
