@@ -23,4 +23,4 @@ class Module(pypboy.SubModule):
 
 	def set_volume(self, i):
 		print(f"set volume {i}")
-		Mixer('Headphone').setvolume(i * 15)
+		Mixer('Headphone').setvolume(i * 12)
