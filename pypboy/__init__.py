@@ -5,7 +5,7 @@ import config
 from config import user_config
 
 if config.gpioAvailable():
-    import RPi.GPIO as GPIO
+    from gpiozero import LED
 
 class BaseModule(game.EntityGroup):
 
@@ -14,9 +14,14 @@ class BaseModule(game.EntityGroup):
     def __init__(self, boy, *args, **kwargs):
         super(BaseModule, self).__init__()
 
-        if config.gpioAvailable():
-            GPIO.setup(self.GPIO_LED_ID, GPIO.OUT)
-            GPIO.output(self.GPIO_LED_ID, False)
+        if not hasattr(self, 'GPIO_LED_ID'):
+            self.gpio_led_id = None
+
+        if config.gpioAvailable() and self.gpio_led_id:
+            self.led = LED(self.gpio_led_id)
+            self.led.on()
+        else:
+            self.led = None
 
         self.pypboy = boy
         self.position = (0, 40)
@@ -77,13 +82,13 @@ class BaseModule(game.EntityGroup):
 
     def handle_pause(self):
         self.paused = True
-        if config.gpioAvailable():
-            GPIO.output(self.GPIO_LED_ID, False)
+        if self.led:
+            self.led.off()
 
     def handle_resume(self):
         self.paused = False
-        if config.gpioAvailable():
-            GPIO.output(self.GPIO_LED_ID, True)
+        if self.led:
+            self.led.on()
         if user_config['audio']['enabled'].get():
             self.module_change_sfx.play()
 

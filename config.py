@@ -93,7 +93,7 @@ for x in range(10, 28):
 
 def gpioAvailable():
     try:
-        __import__("RPi.GPIO") 
+        __import__("gpiozero") 
     except ImportError:
         return False
     else:

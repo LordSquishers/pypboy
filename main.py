@@ -3,11 +3,9 @@ import config
 import os
 import confuse
 if config.gpioAvailable():
-    import RPi.GPIO as GPIO
+    import gpiozero
 
 if config.gpioAvailable():
-    GPIO.setmode(GPIO.BCM)
-
     driver = config.user_config['video']['driver'].get()
     print("Using driver %s" % driver)
     os.putenv('SDL_VIDEODRIVER', driver)
