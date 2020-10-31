@@ -42,6 +42,11 @@ for pin, binding in gpio_bindings.items():
     else:
         print(f"Invalid GPIO binding action: {binding}, ignoring.")
 
+DIAL_GPIO_BINDINGS = {}
+dial_gpio_bindings = user_config['dial_gpio_bindings'].get()
+for binding, pin in dial_gpio_bindings.items():
+    DIAL_GPIO_BINDINGS[binding] = pin
+
 MAP_ICONS = {
     "camp": 		pygame.image.load('images/map_icons/camp.png'),
     "factory": 		pygame.image.load('images/map_icons/factory.png'),

@@ -8,6 +8,7 @@ from pypboy.modules import items
 from pypboy.modules import stats
 
 if config.gpioAvailable():
+    from pypboy.gpio import RotaryEncoder
     from gpiozero import Button
 
 class Pypboy(game.core.Engine):
@@ -20,6 +21,7 @@ class Pypboy(game.core.Engine):
         self.init_modules()
 
         self.gpio_buttons = {}
+        self.rotary_control = None
         if config.gpioAvailable():
             self.init_gpio_controls()
 
@@ -52,6 +54,12 @@ class Pypboy(game.core.Engine):
                   (pin, config.GPIO_ACTIONS[pin]))
             self.gpio_buttons[pin] = Button(pin, pull_up=True)
             self.gpio_buttons[pin].when_pressed = lambda pin=pin: self.handle_action(config.GPIO_ACTIONS[pin])
+        
+        pin_a = config.DIAL_GPIO_BINDINGS['pin_a']
+        pin_b = config.DIAL_GPIO_BINDINGS['pin_b']
+        if pin_a is not None and pin_b is not None:
+            self.rotary_control = RotaryEncoder(pin_a, pin_b)
+            self.rotary_control.when_rotated = self.handle_dial
 
     def update(self):
         if hasattr(self, 'active'):
@@ -74,6 +82,14 @@ class Pypboy(game.core.Engine):
             self.add(self.active)
         else:
             print("Module '%s' not implemented." % module)
+
+    def handle_dial(self, value):
+        if value == -1:
+            self.handle_action('dial_down')
+        elif value == 1:
+            self.handle_action('dial_up')
+        else:
+            print(f"Dial provided invalid value {value}")
 
     def handle_action(self, action):
         print("handle action '%s'" % action)
