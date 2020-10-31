@@ -6,6 +6,7 @@ import copy
 import traceback
 import pygame
 import math
+import time
 import soundfile as sf
 
 class SoundData:
@@ -51,6 +52,8 @@ class Oscilloscope(game.Entity):
         self.rect[0] = 250
         self.rect[1] = 55
 
+        self.last_update = 0
+
         self.width_factor = config.user_config['audio']['oscilloscope_factor'].get()
 
         # Create a blank chart with vertical ticks, etc
@@ -85,32 +88,36 @@ class Oscilloscope(game.Entity):
         self.last_start = start
 
         try:
-            pixels = copy.copy(self.blank)
+            ms = time.time_ns() // 1000000 
+            if (ms - self.last_update) > 500:
+                self.last_update = ms
 
-            if self.song_data:
-                end = start + self.WIDTH * self.width_factor
+                pixels = copy.copy(self.blank)
 
-                lsamples = self.song_data.get_left(start, end)
-                rsamples = []
-                if self.song_data.is_stereo():
-                    rsamples = self.song_data.get_right(start, end)
+                if self.song_data:
+                    end = start + self.WIDTH * self.width_factor
 
-                for x in range(self.WIDTH):
-                    try: 
-                        samp = lsamples[x]
-                        if rsamples != []:
-                            samp = (samp + rsamples[x]) / 2
+                    lsamples = self.song_data.get_left(start, end)
+                    rsamples = []
+                    if self.song_data.is_stereo():
+                        rsamples = self.song_data.get_right(start, end)
 
-                        y = int(float(self.xaxis) + samp * self.HEIGHT * 0.8)
-                        pixels[x][y] = self.TRACE
-                        pixels[x][y-1] = self.AFTER
-                        pixels[x][y+1] = self.AFTER
-                        if abs(y) > 120:
-                            pixels[x][y-2] = self.AFTER
-                            pixels[x][y+2] = self.AFTER
-                    except Exception as e:
-                        print(traceback.format_exc())
+                    for x in range(self.WIDTH):
+                        try: 
+                            samp = lsamples[x]
+                            if rsamples != []:
+                                samp = (samp + rsamples[x]) / 2
 
-            pygame.surfarray.blit_array(self.image, pixels)	 # Blit the screen buffer
+                            y = int(float(self.xaxis) + samp * self.HEIGHT * 0.8)
+                            pixels[x][y] = self.TRACE
+                            pixels[x][y-1] = self.AFTER
+                            pixels[x][y+1] = self.AFTER
+                            if abs(y) > 120:
+                                pixels[x][y-2] = self.AFTER
+                                pixels[x][y+2] = self.AFTER
+                        except Exception as e:
+                            print(traceback.format_exc())
+
+                pygame.surfarray.blit_array(self.image, pixels)	 # Blit the screen buffer
         except:
             print(traceback.format_exc())
