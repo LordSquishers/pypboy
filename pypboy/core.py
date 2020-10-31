@@ -21,7 +21,8 @@ class Pypboy(game.core.Engine):
         self.init_modules()
 
         self.gpio_buttons = {}
-        self.rotary_control = None
+        self.rotary_control = None  
+        self.rotary_mode = 0
         if config.gpioAvailable():
             self.init_gpio_controls()
 
@@ -84,10 +85,14 @@ class Pypboy(game.core.Engine):
             print("Module '%s' not implemented." % module)
 
     def handle_dial(self, value):
+        rotary_mode = 'dial'
+        if self.rotary_mode == 1:
+            rotary_mode = 'knob'
+
         if value == -1:
-            self.handle_action('dial_down')
+            self.handle_action(rotary_mode + '_down')
         elif value == 1:
-            self.handle_action('dial_up')
+            self.handle_action(rotary_mode + '_up')
         else:
             print(f"Dial provided invalid value {value}")
 
@@ -95,6 +100,10 @@ class Pypboy(game.core.Engine):
         print("handle action '%s'" % action)
         if action.startswith('module_'):
             self.switch_module(action[7:])
+        elif action == 'switch_dial_mode':
+            self.rotary_mode = self.rotary_mode + 1
+            if self.rotary_mode > 1:
+                self.rotary_mode = 0
         else:
             if hasattr(self, 'active'):
                 self.active.handle_action(action)

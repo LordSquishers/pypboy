@@ -19,6 +19,7 @@ valid_actions = {
     'knob_5',
     'dial_up',
     'dial_down',
+    'switch_dial_mode',
 }
 
 KEY_ACTIONS = {}

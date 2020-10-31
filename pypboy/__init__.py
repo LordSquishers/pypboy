@@ -34,7 +34,8 @@ class BaseModule(game.EntityGroup):
         self.footer.position = (0, user_config['video']['height'].get() - 53)  # 80
         self.add(self.footer)
 
-        self.switch_submodule(0)
+        self.current_module = 0
+        self.switch_submodule(self.current_module)
 
         self.action_handlers = {
             "pause": self.handle_pause,
@@ -50,6 +51,7 @@ class BaseModule(game.EntityGroup):
             self.active.move(x, y)
 
     def switch_submodule(self, module):
+        self.current_module = module
         if hasattr(self, 'active') and self.active:
             self.active.handle_action("pause")
             self.remove(self.active)
@@ -68,8 +70,17 @@ class BaseModule(game.EntityGroup):
 
     def handle_action(self, action, value=0):
         if action.startswith("knob_"):
-            num = int(action[-1])
-            self.switch_submodule(num - 1)
+            kb = action[5:]
+            # Up is down and down is up.
+            if kb == 'down':
+                if self.current_module < (len(self.submodules) - 1):
+                    self.switch_submodule(self.current_module + 1)
+            elif kb == 'up':
+                if self.current_module != 0:
+                    self.switch_submodule(self.current_module - 1)
+            else:
+                num = int(action[-1])
+                self.switch_submodule(num - 1)
         elif action in self.action_handlers:
             self.action_handlers[action]()
         else:
