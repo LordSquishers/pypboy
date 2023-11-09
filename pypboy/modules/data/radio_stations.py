@@ -21,7 +21,6 @@ class MusicPlayer:
         pygame.mixer.music.load(self.filename)
         if self.oscilloscope:
             self.oscilloscope.set_song(self.filename)
-    
         try:
             pygame.mixer.music.play(0, start_pos)
         except:
