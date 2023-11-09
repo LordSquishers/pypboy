@@ -51,6 +51,7 @@ class Pypboy(game.core.Engine):
         }
         for module in self.modules.values():
             module.move(4, 40)
+        
         self.switch_module("stats")
 
     def init_gpio_controls(self):
@@ -65,6 +66,11 @@ class Pypboy(game.core.Engine):
         if pin_a is not None and pin_b is not None:
             self.rotary_control = RotaryEncoder(pin_a, pin_b)
             self.rotary_control.when_rotated = self.handle_dial
+
+        for pin in self.gpio_buttons:
+            button = self.gpio_buttons[pin]
+            if button.is_pressed and config.GPIO_ACTIONS[pin].startswith('module_'):
+                self.switch_module(config.GPIO_ACTIONS[pin][7:])
 
     def update(self):
         if hasattr(self, 'active'):
@@ -101,7 +107,6 @@ class Pypboy(game.core.Engine):
             print(f"Dial provided invalid value {value}")
 
     def handle_action(self, action):
-        print("handle action '%s'" % action)
         if action.startswith('module_'):
             self.switch_module(action[7:])
         elif action == 'switch_dial_mode':
