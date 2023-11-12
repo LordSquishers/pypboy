@@ -15,9 +15,9 @@ class Module(pypboy.SubModule):
 		screen_width = user_config['video']['width'].get()
 		screen_height = user_config['video']['height'].get()
 
-		mapgrid = entities.Map(480, pygame.Rect(0, 0, screen_width - 8, screen_height - 80))
+		mapgrid = entities.Map(480, 0.01, pygame.Rect(0, 0, screen_width - 8, screen_height - 80))
 
-		location = (user_config['map']['latitude'].get(), user_config['map']['longitude'].get())
+		location = (user_config['map']['latitude'].get(int), user_config['map']['longitude'].get(int))
 
 		mapgrid.fetch_map(location, 0.01)
 		self.add(mapgrid)

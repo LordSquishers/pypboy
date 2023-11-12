@@ -8,16 +8,15 @@ from pypboy.modules.data import entities
 class Module(pypboy.SubModule):
 
 	label = "Local Map"
-
+	
 	def __init__(self, *args, **kwargs):
 		super(Module, self).__init__(*args, **kwargs)
 		screen_width = user_config['video']['width'].get()
 		screen_height = user_config['video']['height'].get()
 
-		mapgrid = entities.Map(screen_width, pygame.Rect(4, (screen_width - screen_height) / 2, screen_width - 8, screen_height - 80))
+		mapgrid = entities.Map(screen_width, 0.003, pygame.Rect(4, (screen_width - screen_height) / 2, screen_width - 8, screen_height - 80))
 
-		location = [user_config['map']['latitude'].get(), user_config['map']['longitude'].get()]
-
+		location = (user_config['map']['latitude'].get(int), user_config['map']['longitude'].get(int))
 		mapgrid.fetch_map(location, 0.003)
 		self.add(mapgrid)
 		mapgrid.rect[0] = 4

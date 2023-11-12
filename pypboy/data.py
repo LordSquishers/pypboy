@@ -1,5 +1,6 @@
 import xmltodict
 import requests
+import requests_cache
 import numpy
 from numpy.fft import fft
 from math import log10
@@ -21,6 +22,7 @@ class Maps(object):
 
     def __init__(self, *args, **kwargs):
         super(Maps, self).__init__(*args, **kwargs)
+        requests_cache.install_cache('map_cache')
 
     def float_floor_to_precision(self, value, precision):
         for i in range(precision):
@@ -66,7 +68,10 @@ class Maps(object):
         while True:
             try:
                 response = requests.get(url)
-            except:
+                print("Map response:")
+                print(response)
+            except Exception as error:
+                print("An exception occurred:", error)
                 pass
             else:
                 break

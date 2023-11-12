@@ -3,6 +3,8 @@ import config
 import pygame
 import threading
 import pypboy.data
+import math
+from .location import LocationManager
 
 class Map(game.Entity):
 
@@ -13,12 +15,16 @@ class Map(game.Entity):
     _map_surface = None
     _loading_size = 0
     _render_rect = None
+    _locationManager = LocationManager()
+    _lastLocation = [0, 0]
+    _radius = 0.003
 
-    def __init__(self, width, render_rect=None, *args, **kwargs):
+    def __init__(self, width, radius, render_rect=None, *args, **kwargs):
         self._mapper = pypboy.data.Maps()
         self._size = width
         self._map_surface = pygame.Surface((width, width))
         self._render_rect = render_rect
+        self._radius = radius
         super(Map, self).__init__((width, width), *args, **kwargs)
         text = config.FONTS[14].render(
             "Loading map...", True, (95, 255, 177), (0, 0, 0))
@@ -34,6 +40,17 @@ class Map(game.Entity):
         self.redraw_map()
 
     def update(self, *args, **kwargs):
+        location = self._locationManager.getPositionData()
+        a = location[0] - self._lastLocation[0]
+        b = location[1] - self._lastLocation[1]
+        dist = math.sqrt(a * a + b * b)
+        
+        if dist > self._radius / 4.0:
+            print("Moved: ")
+            print(dist)
+            self.fetch_map(location, self._radius)
+            self._lastLocation = location
+
         super(Map, self).update(*args, **kwargs)
 
     def move_map(self, x, y):
