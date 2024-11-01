@@ -101,6 +101,7 @@ def gpioAvailable():
         return True
 
 def gpsAvailable():
+    return False
     try:
         __import__("gps")
     except ImportError:

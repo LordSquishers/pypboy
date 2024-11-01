@@ -6,7 +6,32 @@ import config
 
 class Module(pypboy.SubModule):
 
-	label = "S.P.E.C.I.A.L."
+    label = " SPECIAL "
 
-	def __init__(self, *args, **kwargs):
-		super(Module, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(Module, self).__init__(*args, **kwargs)
+        self.menu = pypboy.ui.Menu(100,
+                                   ["Strength",
+                                    "Perception",
+                                    "Endurance",
+                                    "Charisma",
+                                    "Intelligence",
+                                    "Agility",
+                                    "Luck",
+                                    ],
+                                   [self.show_it,
+                                    self.show_it,
+                                    self.show_it,
+                                    self.show_it,
+                                    self.show_it,
+                                    self.show_it,
+                                    self.show_it
+                                    ],
+                                   0)
+        self.menu.rect[0] = 4
+        self.menu.rect[1] = 60
+        self.add(self.menu)
+
+    def show_it(self):
+        print("yea");
+        
