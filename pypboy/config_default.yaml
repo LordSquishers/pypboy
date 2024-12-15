@@ -9,8 +9,8 @@ audio:
   oscilloscope_factor: 2 # Mostly meaningless, just tweak to your liking.
 
 map:
-  latitude: -102.3016145
-  longitude: 21.8841274
+  latitude: 38.9670302
+  longitude: -77.2502904
 
 key_bindings:
   'F1': 'module_stats'
