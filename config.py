@@ -9,7 +9,7 @@ EVENTS = {
 }
 
 valid_actions = {
-    'module_stats', 
+    'module_stats',
     'module_items',
     'module_data',
     'knob_1',
@@ -49,42 +49,42 @@ for binding, pin in dial_gpio_bindings.items():
     DIAL_GPIO_BINDINGS[binding] = pin
 
 MAP_ICONS = {
-    "camp": 		pygame.image.load('images/map_icons/camp.png'),
-    "factory": 		pygame.image.load('images/map_icons/factory.png'),
-    "metro": 		pygame.image.load('images/map_icons/metro.png'),
-    "misc": 		pygame.image.load('images/map_icons/misc.png'),
-    "monument": 	pygame.image.load('images/map_icons/monument.png'),
-    "vault": 		pygame.image.load('images/map_icons/vault.png'),
-    "settlement": 	pygame.image.load('images/map_icons/settlement.png'),
-    "ruin": 		pygame.image.load('images/map_icons/ruin.png'),
-    "cave": 		pygame.image.load('images/map_icons/cave.png'),
-    "landmark": 	pygame.image.load('images/map_icons/landmark.png'),
-    "city": 		pygame.image.load('images/map_icons/city.png'),
-    "office": 		pygame.image.load('images/map_icons/office.png'),
-    "sewer": 		pygame.image.load('images/map_icons/sewer.png'),
+    "camp": pygame.image.load('images/map_icons/camp.png'),
+    "factory": pygame.image.load('images/map_icons/factory.png'),
+    "metro": pygame.image.load('images/map_icons/metro.png'),
+    "misc": pygame.image.load('images/map_icons/misc.png'),
+    "monument": pygame.image.load('images/map_icons/monument.png'),
+    "vault": pygame.image.load('images/map_icons/vault.png'),
+    "settlement": pygame.image.load('images/map_icons/settlement.png'),
+    "ruin": pygame.image.load('images/map_icons/ruin.png'),
+    "cave": pygame.image.load('images/map_icons/cave.png'),
+    "landmark": pygame.image.load('images/map_icons/landmark.png'),
+    "city": pygame.image.load('images/map_icons/city.png'),
+    "office": pygame.image.load('images/map_icons/office.png'),
+    "sewer": pygame.image.load('images/map_icons/sewer.png'),
 }
 
 AMENITIES = {
-    'pub': 				MAP_ICONS['vault'],
-    'nightclub': 		MAP_ICONS['vault'],
-    'bar': 				MAP_ICONS['vault'],
-    'fast_food': 		MAP_ICONS['sewer'],
-    'cafe': 			MAP_ICONS['sewer'],
-    'drinking_water': 	MAP_ICONS['sewer'],
-    'restaurant': 		MAP_ICONS['settlement'],
-    'cinema': 			MAP_ICONS['office'],
-    'pharmacy': 		MAP_ICONS['office'],
-    'school': 			MAP_ICONS['office'],
-    'bank': 			MAP_ICONS['monument'],
-    'townhall': 		MAP_ICONS['monument'],
-    'bicycle_parking': 	MAP_ICONS['misc'],
+    'pub': MAP_ICONS['vault'],
+    'nightclub': MAP_ICONS['vault'],
+    'bar': MAP_ICONS['vault'],
+    'fast_food': MAP_ICONS['sewer'],
+    'cafe': MAP_ICONS['sewer'],
+    'drinking_water': MAP_ICONS['sewer'],
+    'restaurant': MAP_ICONS['settlement'],
+    'cinema': MAP_ICONS['office'],
+    'pharmacy': MAP_ICONS['office'],
+    'school': MAP_ICONS['office'],
+    'bank': MAP_ICONS['monument'],
+    'townhall': MAP_ICONS['monument'],
+    'bicycle_parking': MAP_ICONS['misc'],
     'place_of_worship': MAP_ICONS['misc'],
-    'theatre': 			MAP_ICONS['misc'],
-    'bus_station': 		MAP_ICONS['misc'],
-    'parking': 			MAP_ICONS['misc'],
-    'fountain': 		MAP_ICONS['misc'],
-    'marketplace': 		MAP_ICONS['misc'],
-    'atm': 				MAP_ICONS['misc'],
+    'theatre': MAP_ICONS['misc'],
+    'bus_station': MAP_ICONS['misc'],
+    'parking': MAP_ICONS['misc'],
+    'fountain': MAP_ICONS['misc'],
+    'marketplace': MAP_ICONS['misc'],
+    'atm': MAP_ICONS['misc'],
 }
 
 pygame.font.init()
@@ -92,13 +92,15 @@ FONTS = {}
 for x in range(10, 28):
     FONTS[x] = pygame.font.Font('monofonto.ttf', x)
 
+
 def gpioAvailable():
     try:
-        __import__("gpiozero") 
+        __import__("gpiozero")
     except ImportError:
         return False
     else:
         return True
+
 
 def gpsAvailable():
     return False
@@ -108,4 +110,3 @@ def gpsAvailable():
         return False
     else:
         return True
-    

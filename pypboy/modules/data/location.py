@@ -11,7 +11,10 @@ else:
 class LocationManager:
     _latitude = 0
     _longitude = 0
-    _gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
+    if gpsAvailable:
+        _gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
+    else:
+        _gpsd = None
     _lock = threading.Lock()
 
     def __init__(self):
