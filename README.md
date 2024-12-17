@@ -46,7 +46,7 @@ cd ../
 If you need to rotate the display you can do so by running `sudo ./LCD-show/rotate.sh <0/90/180/270>`.
 
 Finally, to install this program, run `git clone https://github.com/LordSquishers/pypboy.git` and copy the startup script to the desktop 
-using `cp pypboy/pipboy.sh ~/Desktop/`. You'll also need to create a directory called `radio` for radio files (`.ogg`) in `Documents/`(can just use `mkdir radio`).
+using `cp pypboy/pipboy.sh ~/Desktop/`. You'll also need to create a directory called `radio` for radio files (`.ogg`) in `Documents/`(can just use `mkdir radio`). A few stations are configured, but they will not have folders or music on a fresh install.
 
 To set the program to automatically run on startup, run `sudo nano /etc/xdg/lxsession/LXDE-pi/autostart` and add `@bash /home/pipboy/Desktop/pipboy.sh` to the end of the file. You may need to give the file executable permissions with `chmod a+x ~/Desktop/pipboy.sh`. Run and enjoy!
 ## Authors

@@ -8,8 +8,6 @@ audio:
   enabled: True
   oscilloscope_factor: 2 # Mostly meaningless, just tweak to your liking.
 
-# TODO - self-boot sequence
-
 # TODO - add radius for maps to config / fix world map focused on wrong spot
 # TODO - figure out a marker for home
 # TODO - filter OSM data lines (simpler roads)
@@ -58,6 +56,6 @@ radio:
     diamondcity:
       label: 'Diamond City Radio'
       directory: 'dcr/'
-    sanctuary:
-      label: 'Minutemen Radio'
-      directory: 'sanctuary/'
+    classical:
+      label: 'Classical Radio'
+      directory: 'classical/'
