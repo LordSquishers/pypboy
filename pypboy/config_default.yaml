@@ -1,8 +1,8 @@
 video:
   width: 480
   height: 320
-  fbdev: fb0
-  driver: KMSDRM
+  fbdev: fb1
+  driver: x11
 
 audio:
   enabled: True

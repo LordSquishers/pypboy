@@ -17,14 +17,14 @@ class Module(pypboy.SubModule):
 
 		mapgrid = entities.Map(480, 0.01, pygame.Rect(0, 0, screen_width - 8, screen_height - 80))
 
-		location = (user_config['map']['latitude'].get(int), user_config['map']['longitude'].get(int))
+		location = (user_config['map']['latitude'].get(float), user_config['map']['longitude'].get(float))
 
-		mapgrid.fetch_map(location, 0.01)
+		mapgrid.fetch_map(location, 0.01)  # ~2.66km diameter
 		self.add(mapgrid)
 		mapgrid.rect[0] = 4
 		mapgrid.rect[1] = 40
 
 	def handle_resume(self):
 		self.parent.pypboy.header.headline = "DATA"
-		self.parent.pypboy.header.title = "Belfast City"
+		self.parent.pypboy.header.title = "World Map"
 		super(Module, self).handle_resume()
