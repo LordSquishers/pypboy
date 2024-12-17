@@ -51,7 +51,7 @@ for binding, pin in dial_gpio_bindings.items():
     DIAL_GPIO_BINDINGS[binding] = pin
 
 MAP_ICONS = {
-    "camp": pygame.image.load(USER_DIR + '/home/images/map_icons/camp.png'),
+    "camp": pygame.image.load(USER_DIR + 'images/map_icons/camp.png'),
     "factory": pygame.image.load(USER_DIR + 'images/map_icons/factory.png'),
     "metro": pygame.image.load(USER_DIR + 'images/map_icons/metro.png'),
     "misc": pygame.image.load(USER_DIR + 'images/map_icons/misc.png'),
