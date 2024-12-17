@@ -59,3 +59,6 @@ radio:
     classical:
       label: 'Classical Radio'
       directory: 'classical/'
+    fo4ost:
+      label: 'Original Sound Radio'
+      directory: 'f04ost/'
