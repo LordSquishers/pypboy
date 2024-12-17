@@ -40,7 +40,7 @@ class LocationManager:
             longitude = self._longitude
             self._lock.release()
         else:
-            latitude = user_config['map']['latitude'].get(int)
-            longitude = user_config['map']['longitude'].get(int)
+            latitude = user_config['map']['latitude'].get(float)
+            longitude = user_config['map']['longitude'].get(float)
 
         return (longitude, latitude)

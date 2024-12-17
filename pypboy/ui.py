@@ -20,7 +20,7 @@ class Header(game.Entity):
         super(Header, self).update(*args, **kwargs)
 
     def render(self, *args, **kwargs):
-        new_date = datetime.datetime.now().strftime("%d.%m.%y.%H:%M:%S")
+        new_date = datetime.datetime.now().strftime("%m.%d.%y %H:%M:%S")
         if new_date != self._date:
             self.image.fill((0, 0, 0))
             pygame.draw.line(self.image, (95, 255, 177), (5, 15), (5, 35), 2)
