@@ -8,6 +8,17 @@ audio:
   enabled: True
   oscilloscope_factor: 2 # Mostly meaningless, just tweak to your liking.
 
+# TODO - self-boot sequence
+
+# TODO - add radius for maps to config / fix world map focused on wrong spot
+# TODO - figure out a marker for home
+# TODO - filter OSM data lines (simpler roads)
+# TODO - customize other stuff!
+
+# TODO - wire electronics
+# TODO - paint
+# TODO - enjoy finished product
+
 map:
   latitude: 38.9670302
   longitude: -77.2502904
