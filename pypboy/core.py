@@ -63,7 +63,7 @@ class Pypboy(game.core.Engine):
         
         pin_a = config.DIAL_GPIO_BINDINGS['pin_a']
         pin_b = config.DIAL_GPIO_BINDINGS['pin_b']
-        if pin_a is not None and pin_b is not None:
+        if pin_a != 0 and pin_b != 0:
             self.rotary_control = RotaryEncoder(pin_a, pin_b)
             self.rotary_control.when_rotated = self.handle_dial
 

@@ -29,23 +29,24 @@ gpio_bindings:
   4: 'module_stats'
   14: 'module_items'
   15: 'module_data'
-  17: 'knob_1'
+  5: 'knob_1'
   18: 'knob_2'
-  7: 'knob_3'
-  22: 'knob_4'
+  27: 'knob_3'
+  13: 'knob_4'
   23: 'knob_5'
-  31: 'dial_up'
-  27: 'dial_down'
+  6: 'dial_up'
+  12: 'dial_down'
 
 # Using GPIO.BCM as mode - assuming this is the same!
 dial_gpio_bindings:
-  4: 'module_stats'
-  14: 'module_items'
-  15: 'module_data'
-  17: 'knob_1'
-  18: 'knob_2'
-  7: 'knob_3'
-  22: 'knob_4'
-  23: 'knob_5'
-  31: 'dial_up'
-  27: 'dial_down'
+  'pin_a': 0
+  'pin_b': 0
+
+radio:
+  stations:
+    diamondcity:
+      label: 'Diamond City Radio'
+      directory: 'sounds/radio/dcr/'
+    sanctuary:
+      label: 'Minutemen Radio'
+      directory: 'sounds/radio/sanctuary/'
