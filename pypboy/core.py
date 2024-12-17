@@ -25,13 +25,13 @@ class Pypboy(game.core.Engine):
         self.rotary_mode = 0
 
         if config.user_config['audio']['enabled'].get():
-            self.rotary_mode_change = pygame.mixer.Sound('sounds/module_change.ogg')
+            self.rotary_mode_change = pygame.mixer.Sound(config.USER_DIR + 'sounds/module_change.ogg')
 
         if config.gpioAvailable():
             self.init_gpio_controls()
 
     def init_children(self):
-        self.background = pygame.image.load('images/overlay.png')
+        self.background = pygame.image.load(config.USER_DIR + 'images/overlay.png')
         # border = pypboy.ui.Border()
         # self.root_children.add(border)
         self.header = pypboy.ui.Header()

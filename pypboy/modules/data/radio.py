@@ -15,7 +15,7 @@ class Module(pypboy.SubModule):
 		self.add(self.oscilloscope)
 
 		station_info = config.user_config['radio']['stations'].get()
-		self.stations = list(map(lambda s: RadioStation(s['label'], s['directory']), list(station_info.values())))
+		self.stations = list(map(lambda s: RadioStation(s['label'], config.RADIO_DIR + s['directory']), list(station_info.values())))
 		for station in self.stations:
 			station.set_oscilloscope(self.oscilloscope)
 			self.add(station)

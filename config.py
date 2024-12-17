@@ -3,6 +3,8 @@ import yaml
 import confuse
 
 user_config = confuse.Configuration('pypboy', 'pypboy')
+USER_DIR = '/home/pipboy/Documents/pypboy/'
+RADIO_DIR = '/home/pipboy/Documents/radio/'
 
 EVENTS = {
     'SONG_END': pygame.USEREVENT + 1
@@ -49,19 +51,19 @@ for binding, pin in dial_gpio_bindings.items():
     DIAL_GPIO_BINDINGS[binding] = pin
 
 MAP_ICONS = {
-    "camp": pygame.image.load('images/map_icons/camp.png'),
-    "factory": pygame.image.load('images/map_icons/factory.png'),
-    "metro": pygame.image.load('images/map_icons/metro.png'),
-    "misc": pygame.image.load('images/map_icons/misc.png'),
-    "monument": pygame.image.load('images/map_icons/monument.png'),
-    "vault": pygame.image.load('images/map_icons/vault.png'),
-    "settlement": pygame.image.load('images/map_icons/settlement.png'),
-    "ruin": pygame.image.load('images/map_icons/ruin.png'),
-    "cave": pygame.image.load('images/map_icons/cave.png'),
-    "landmark": pygame.image.load('images/map_icons/landmark.png'),
-    "city": pygame.image.load('images/map_icons/city.png'),
-    "office": pygame.image.load('images/map_icons/office.png'),
-    "sewer": pygame.image.load('images/map_icons/sewer.png'),
+    "camp": pygame.image.load(USER_DIR + '/home/images/map_icons/camp.png'),
+    "factory": pygame.image.load(USER_DIR + 'images/map_icons/factory.png'),
+    "metro": pygame.image.load(USER_DIR + 'images/map_icons/metro.png'),
+    "misc": pygame.image.load(USER_DIR + 'images/map_icons/misc.png'),
+    "monument": pygame.image.load(USER_DIR + 'images/map_icons/monument.png'),
+    "vault": pygame.image.load(USER_DIR + 'images/map_icons/vault.png'),
+    "settlement": pygame.image.load(USER_DIR + 'images/map_icons/settlement.png'),
+    "ruin": pygame.image.load(USER_DIR + 'images/map_icons/ruin.png'),
+    "cave": pygame.image.load(USER_DIR + 'images/map_icons/cave.png'),
+    "landmark": pygame.image.load(USER_DIR + 'images/map_icons/landmark.png'),
+    "city": pygame.image.load(USER_DIR + 'images/map_icons/city.png'),
+    "office": pygame.image.load(USER_DIR + 'images/map_icons/office.png'),
+    "sewer": pygame.image.load(USER_DIR + 'images/map_icons/sewer.png'),
 }
 
 AMENITIES = {
@@ -90,7 +92,7 @@ AMENITIES = {
 pygame.font.init()
 FONTS = {}
 for x in range(10, 28):
-    FONTS[x] = pygame.font.Font('monofonto.ttf', x)
+    FONTS[x] = pygame.font.Font(USER_DIR + 'monofonto.ttf', x)
 
 
 def gpioAvailable():

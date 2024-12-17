@@ -4,7 +4,6 @@ import game
 import config
 import pypboy.ui
 
-
 class Module(pypboy.SubModule):
 
     label = "Status"
@@ -40,6 +39,6 @@ class Health(game.Entity):
 
     def __init__(self):
         super(Health, self).__init__()
-        self.image = pygame.image.load('images/pipboy.png')
+        self.image = pygame.image.load(config.USER_DIR + 'images/pipboy.png')
         self.rect = self.image.get_rect()
         self.image = self.image.convert()

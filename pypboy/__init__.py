@@ -43,7 +43,7 @@ class BaseModule(game.EntityGroup):
         }
         if user_config['audio']['enabled'].get():
             self.module_change_sfx = pygame.mixer.Sound(
-                'sounds/module_change.ogg')
+                config.USER_DIR + 'sounds/module_change.ogg')
 
     def move(self, x, y):
         super(BaseModule, self).move(x, y)
@@ -117,7 +117,7 @@ class SubModule(game.EntityGroup):
 
         if user_config['audio']['enabled'].get():
             self.submodule_change_sfx = pygame.mixer.Sound(
-                'sounds/submodule_change.ogg')
+                config.USER_DIR + 'sounds/submodule_change.ogg')
 
     def handle_action(self, action, value=0):
         if action.startswith("dial_"):

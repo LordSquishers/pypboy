@@ -57,7 +57,7 @@ radio:
   stations:
     diamondcity:
       label: 'Diamond City Radio'
-      directory: 'sounds/radio/dcr/'
+      directory: 'dcr/'
     sanctuary:
       label: 'Minutemen Radio'
-      directory: 'sounds/radio/sanctuary/'
+      directory: 'sanctuary/'
