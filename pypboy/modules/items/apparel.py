@@ -8,28 +8,21 @@ class Module(pypboy.SubModule):
 
     label = " Apparel "
 
+    items = ["Black-Rim Glasses",
+             "Formal Hat",
+             "Hazmat Suit",
+             "Kellogg's Outfit",
+             "Lieutenant's Hat",
+             "Minutemen General's Uniform",
+             "Wedding Ring",
+             "Wedding Ring",
+             "Worn Fedora"]
+
     def __init__(self, *args, **kwargs):
         super(Module, self).__init__(*args, **kwargs)
         self.menu = pypboy.ui.Menu(300,
-                                   ["Acadia's Shield",
-                                    "Atom's Bukwark",
-                                    "High Confessor's Helo",
-                                    "High Confessor's Robes",
-                                    "Minutemen General's Hat",
-                                    "Minutemen General's Uniform",
-                                    "Postman's Hat",
-                                    "Vault Jumpsuit",
-                                    ],
-                                   [self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it,
-                                    self.show_it
-                                    ],
+                                   self.items,
+                                   [self.show_it() for _ in range(len(self.items))],
                                    0)
         self.menu.rect[0] = 4
         self.menu.rect[1] = 60

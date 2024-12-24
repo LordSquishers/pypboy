@@ -43,12 +43,18 @@ sudo ./LCD35-show
 cd ../
 ```
 
-If you need to rotate the display you can do so by running `sudo ./LCD-show/rotate.sh <0/90/180/270>`.
+If you need to rotate the display you can do so by running `sudo ./LCD-show/rotate.sh <0/90/180/270>`. To increase the refresh rate of the screen, run `sudo nano /boot/config.txt'` and add `,speed=28000000` to the end of the line starting with `dtoverlay=tft35a...`.
 
-Finally, to install this program, run `git clone https://github.com/LordSquishers/pypboy.git` and copy the startup script to the desktop 
-using `cp pypboy/pipboy.sh ~/Desktop/`. You'll also need to create a directory called `radio` for radio files (`.ogg`) in `Documents/`(can just use `mkdir radio`). A few stations are configured, but they will not have folders or music on a fresh install.
+Finally, to install this program, run `git clone https://github.com/LordSquishers/pypboy.git` and copy the startup script to documents 
+using `cp pypboy/pipboy.sh ./`. You'll also need to create a directory called `radio` for radio files (`.ogg`) in `Documents/`(can just use `mkdir radio`). A few stations are configured, but they will not have folders or music on a fresh install.
 
-To set the program to automatically run on startup, run `sudo nano /etc/xdg/lxsession/LXDE-pi/autostart` and add `@bash /home/pipboy/Desktop/pipboy.sh` to the end of the file. You may need to give the file executable permissions with `chmod a+x ~/Desktop/pipboy.sh`. Run and enjoy!
+To set the program to automatically run on startup, run `sudo nano /etc/xdg/lxsession/LXDE-pi/autostart` and add `@bash /home/pipboy/Documents/pipboy.sh` to the end of the file. You may need to give the file executable permissions with `chmod a+x ~/Documents/pipboy.sh`. Run and enjoy!
+
+### Extras
+- For full immersion, clear the taskbar in Desktop Preferences and set the background to the PipBoy boot screen (https://techgage.com/wp-content/uploads/2015/11/Fallout-4-Pip-Boy-App-Android-Boot-Prompt.jpg). 
+- Remove all panels from the top taskbar except for `Menu` and set the panel color to `#33A927`. Also, you may want to set the taskbar to the bottom.
+- Run `sudo sed -i -- "s/#xserver-command=X/xserver-command=X -nocursor/" /etc/lightdm/lightdm.conf` to hide the cursor by default (do this at the end so it's not painful to navigate during setup).
+
 ## Authors
 - grieve, the original author!
 - sabas1080, who extended the project and included TFT displays (this version used by Adafruit).
