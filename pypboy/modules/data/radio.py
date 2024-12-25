@@ -33,7 +33,7 @@ class Module(pypboy.SubModule):
 		self.menu.rect[1] = 60
 		self.add(self.menu)
 
-		self.menu.select(1)
+		self.menu.select(0)
 
 	def select_station(self, station):
 		if hasattr(self, 'active_station') and self.active_station:

@@ -11,7 +11,7 @@ class Module(pypboy.SubModule):
 		items = []
 		actions = []
 		for i in range(0, 8):
-			name = 'Volume ' + str(i)
+			name = 'Volume ' + str(i + 1)
 			items.append(name)
 			action = lambda i=i: self.set_volume(i)
 			actions.append(action)

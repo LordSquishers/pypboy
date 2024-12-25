@@ -35,18 +35,15 @@ key_bindings:
 
 # Using GPIO.BCM as mode
 gpio_bindings:
-  4: 'module_stats'
-  14: 'module_items'
-  15: 'module_data'
-  5: 'knob_1'
-  18: 'knob_2'
-  27: 'knob_3'
-  13: 'knob_4'
-  23: 'knob_5'
   6: 'dial_up'
   12: 'dial_down'
+  16: 'knob_1' # shift right
+  19: 'knob_2' # shift left
+  20: 'module_items'
+  21: 'module_stats'
+  26: 'module_data'
 
-# Using GPIO.BCM as mode - assuming this is the same!
+# Secondary dial hookups
 dial_gpio_bindings:
   'pin_a': 0
   'pin_b': 0
