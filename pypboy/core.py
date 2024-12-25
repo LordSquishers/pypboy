@@ -107,6 +107,7 @@ class Pypboy(game.core.Engine):
             print(f"Dial provided invalid value {value}")
 
     def handle_action(self, action):
+        print(action)
         if action.startswith('module_'):
             self.switch_module(action[7:])
         elif action == 'switch_dial_mode':
