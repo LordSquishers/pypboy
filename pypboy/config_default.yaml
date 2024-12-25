@@ -35,13 +35,14 @@ key_bindings:
 
 # Using GPIO.BCM as mode
 # k1 -> shift left, k2 -> shift right
-gpio_bindings: # 19-1, x-2, 26-3, 21-4, x-5, 20-6, x-7
-  6: 'dial_up' # NO
-  12: 'knob_1' # NO
-  16: 'module_items' # NO
+# mod stats, mod items, mod data, knob_1, knob_2, dial_down, dial_up
+gpio_bindings: # 19-1, 12-2, 26-3, 16-4, 21-5, 20-6, 6-7
+  6: 'dial_up' # NO 7
+  12: 'module_items' # NO 2
+  16: 'knob_1' # NO 4
   19: 'module_stats' # NO 1
   20: 'dial_down' # NO 6
-  21: 'knob_2' # NO 4
+  21: 'knob_2' # NO 5
   26: 'module_data' # NO 3
 
 # Secondary dial hookups
