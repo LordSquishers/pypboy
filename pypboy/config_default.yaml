@@ -34,14 +34,15 @@ key_bindings:
   'DOWN': 'dial_down'
 
 # Using GPIO.BCM as mode
-gpio_bindings:
-  6: 'dial_up'
-  12: 'dial_down'
-  16: 'knob_1' # shift right
-  19: 'knob_2' # shift left
-  20: 'module_items'
-  21: 'module_stats'
-  26: 'module_data'
+# k1 -> shift left, k2 -> shift right
+gpio_bindings: # 19-1, x-2, 26-3, 21-4, x-5, 20-6, x-7
+  6: 'dial_up' # NO
+  12: 'knob_1' # NO
+  16: 'module_items' # NO
+  19: 'module_stats' # NO 1
+  20: 'dial_down' # NO 6
+  21: 'knob_2' # NO 4
+  26: 'module_data' # NO 3
 
 # Secondary dial hookups
 dial_gpio_bindings:
